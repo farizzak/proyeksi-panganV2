@@ -43,73 +43,36 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except(['_token', '_method']);
-
-        $check = MRole::where('name', @$request->name)->first();
+        $check = MRole::where('name', $request->name)->first();
 
         if ($check) {
-            return redirect('roles')->with('error', 'Role already exist!');
+            return response()->json(['message' => 'Role already exists!'], 400);
         }
 
-        MRole::create($data);
+        MRole::create(['name' => $request->name]);
 
-        return redirect('roles')->with('success', 'Role saved!');
+        return response()->json(['message' => 'Role saved successfully!']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $data = $request->except(['_token', '_method']);
-
-        $check = MRole::where('name', @$request->name)->where('id', '!=', $id)->first();
+        $check = MRole::where('name', $request->name)
+                    ->where('id', '!=', $id)
+                    ->first();
 
         if ($check) {
-            return redirect('roles')->with('error', 'Role name already exist!');
+            return response()->json(['message' => 'Role name already exists!'], 400);
         }
 
-        MRole::find($id)->update($data);
+        MRole::findOrFail($id)->update(['name' => $request->name]);
 
-        return redirect('roles')->with('success', 'Role updated!');
+        return response()->json(['message' => 'Role updated successfully!']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        MRole::find($id)->delete();
+        MRole::findOrFail($id)->delete();
 
-        return redirect('roles')->with('success', 'Role deleted!');
+        return response()->json(['message' => 'Role deleted successfully!']);
     }
 }

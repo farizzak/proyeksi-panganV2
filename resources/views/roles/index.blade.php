@@ -115,18 +115,12 @@ $(document).ready(function() {
                 render: function(data, type, row) {
                     return `
                         <div class="flex justify-center gap-3">
-                            <button 
-                                class="edit-btn text-blue-500 hover:text-blue-700" 
-                                data-id="${data}" 
-                                data-name="${row.name}" 
-                                title="Edit">
+                            <button class="edit-btn text-blue-500 hover:text-blue-700" 
+                                    data-id="${data}" data-name="${row.name}">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <button 
-                                class="delete-btn text-red-500 hover:text-red-700" 
-                                data-id="${data}" 
-                                data-name="${row.name}" 
-                                title="Delete">
+                            <button class="delete-btn text-red-500 hover:text-red-700" 
+                                    data-id="${data}" data-name="${row.name}">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
@@ -141,40 +135,105 @@ $(document).ready(function() {
         }
     });
 
+    // ✅ Tambah / Edit data (AJAX)
+    $('#myform').on('submit', function(e) {
+        e.preventDefault();
+
+        let form = $(this);
+        let actionUrl = form.attr('action');
+        let method = $('#method').val();
+
+        $.ajax({
+            url: actionUrl,
+            method: method === 'post' ? 'POST' : 'PUT',
+            data: form.serialize(),
+            success: function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: response.message || 'Data berhasil disimpan!',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                form.trigger('reset');
+                $('#formtitle').text('Add Role');
+                $('#method').val('post');
+                form.attr('action', `{{ route('roles.store') }}`);
+                table.ajax.reload(null, false);
+            },
+            error: function(xhr) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: xhr.responseJSON?.message || 'Terjadi kesalahan!',
+                });
+            }
+        });
+    });
+
     // ✅ Tombol Edit
     $('#dataTable').on('click', '.edit-btn', function() {
         const id = $(this).data('id');
         const name = $(this).data('name');
-
         $('#formtitle').text('Edit Role');
         $('#method').val('put');
         $('#myform').attr('action', `/roles/${id}`);
         $('#name').val(name);
     });
 
-    // ✅ Tombol Cancel (reset form)
+    // ✅ Tombol Cancel
     $('#cancelEdit').on('click', function() {
         $('#formtitle').text('Add Role');
         $('#method').val('post');
         $('#myform').attr('action', `{{ route('roles.store') }}`);
-        $('#name').val('');
+        $('#myform')[0].reset();
     });
 
-    // ✅ Tombol Delete (tampilkan modal)
-    let deleteId = null;
+    // ✅ Tombol Delete dengan SweetAlert konfirmasi
     $('#dataTable').on('click', '.delete-btn', function() {
-        deleteId = $(this).data('id');
-        $('#deleteModal').removeClass('hidden');
-        $('#delform').attr('action', `/roles/${deleteId}`);
-    });
+        const id = $(this).data('id');
 
-    // ✅ Tombol Cancel di modal
-    $('#cancelDelete').on('click', function() {
-        $('#deleteModal').addClass('hidden');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This role will be deleted!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `/roles/${id}`,
+                    method: 'DELETE',
+                    data: { _token: '{{ csrf_token() }}' },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: response.message || 'Data berhasil dihapus!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        table.ajax.reload(null, false);
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Gagal menghapus data!',
+                        });
+                    }
+                });
+            }
+        });
     });
 });
 </script>
-
-{{-- FontAwesome untuk icon --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
 @endpush
+

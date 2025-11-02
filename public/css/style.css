@@ -6,6 +6,11 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.swal2-container {
+    z-index: 99999 !important;
+}
+
+
 /* === Tailwind v3 directives === */
 *, ::before, ::after{
   --tw-border-spacing-x: 0;
@@ -1017,9 +1022,6 @@ body{
 .max-w-md{
   max-width: 28rem;
 }
-.max-w-screen-2xl{
-  max-width: 1536px;
-}
 .flex-1{
   flex: 1 1 0%;
 }
@@ -1285,6 +1287,14 @@ body{
   --tw-border-opacity: 1;
   border-color: rgb(208 213 221 / var(--tw-border-opacity, 1));
 }
+.border-green-400{
+  --tw-border-opacity: 1;
+  border-color: rgb(74 222 128 / var(--tw-border-opacity, 1));
+}
+.border-red-400{
+  --tw-border-opacity: 1;
+  border-color: rgb(248 113 113 / var(--tw-border-opacity, 1));
+}
 .border-success-500{
   --tw-border-opacity: 1;
   border-color: rgb(18 183 106 / var(--tw-border-opacity, 1));
@@ -1364,12 +1374,20 @@ body{
 .bg-gray-900\/50{
   background-color: rgb(16 24 40 / 0.5);
 }
+.bg-green-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
+}
 .bg-orange-400{
   --tw-bg-opacity: 1;
   background-color: rgb(253 133 58 / var(--tw-bg-opacity, 1));
 }
 .bg-orange-500\/\[0\.08\]{
   background-color: rgb(251 101 20 / 0.08);
+}
+.bg-red-100{
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1));
 }
 .bg-red-600{
   --tw-bg-opacity: 1;
@@ -1715,6 +1733,10 @@ body{
   --tw-text-opacity: 1;
   color: rgb(16 24 40 / var(--tw-text-opacity, 1));
 }
+.text-green-700{
+  --tw-text-opacity: 1;
+  color: rgb(21 128 61 / var(--tw-text-opacity, 1));
+}
 .text-orange-500{
   --tw-text-opacity: 1;
   color: rgb(251 101 20 / var(--tw-text-opacity, 1));
@@ -1722,6 +1744,10 @@ body{
 .text-red-500{
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
+}
+.text-red-700{
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
 }
 .text-success-500{
   --tw-text-opacity: 1;
