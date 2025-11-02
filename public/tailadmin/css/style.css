@@ -1,0 +1,203 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+/* === Global Font === */
+html {
+  font-family: 'Outfit', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Tailwind v3 directives === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Base Resets === */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  body {
+    @apply relative text-base font-normal font-outfit z-[1] bg-gray-50 text-gray-800 transition-colors duration-300;
+  }
+
+  /* Dark mode global */
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
+}
+
+/* === Sidebar & Menu Items === */
+.menu-item {
+  @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm transition-colors;
+}
+.menu-item-active {
+  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/10 dark:text-brand-400;
+}
+.menu-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5;
+}
+.menu-item-icon-active {
+  @apply fill-brand-500 dark:fill-brand-400;
+}
+.menu-item-icon-inactive {
+  @apply fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300;
+}
+.menu-item-arrow {
+  @apply absolute top-1/2 right-2.5 -translate-y-1/2;
+}
+.menu-item-arrow-active {
+  @apply rotate-180 stroke-brand-500 dark:stroke-brand-400;
+}
+.menu-item-arrow-inactive {
+  @apply stroke-gray-500 group-hover:stroke-gray-700 dark:stroke-gray-400 dark:group-hover:stroke-gray-300;
+}
+
+/* Dropdown menu */
+.menu-dropdown-item {
+  @apply text-sm relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium;
+}
+.menu-dropdown-item-active {
+  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/10 dark:text-brand-400;
+}
+.menu-dropdown-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
+}
+.menu-dropdown-badge {
+  @apply text-brand-500 dark:text-brand-400 block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase;
+}
+.menu-dropdown-badge-active {
+  @apply bg-brand-100 dark:bg-brand-500/20;
+}
+.menu-dropdown-badge-inactive {
+  @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
+}
+
+/* === Scrollbar === */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.custom-scrollbar::-webkit-scrollbar { @apply w-1.5 h-1.5; }
+.custom-scrollbar::-webkit-scrollbar-track { @apply rounded-full; }
+.custom-scrollbar::-webkit-scrollbar-thumb { @apply bg-gray-200 rounded-full; }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #344054; }
+
+/* === Sidebar Hover Behavior === */
+.sidebar:hover { width: 290px; }
+.sidebar:hover .logo { display: block; }
+.sidebar:hover .logo-icon { display: none; }
+.sidebar:hover .sidebar-header { justify-content: space-between; }
+.sidebar:hover .menu-group-title { display: block; }
+.sidebar:hover .menu-group-icon { display: none; }
+.sidebar:hover .menu-item-text { display: inline; }
+.sidebar:hover .menu-item-arrow { display: block; }
+.sidebar:hover .menu-dropdown { display: flex; }
+
+/* === Checkbox, Table, Task === */
+.tableCheckbox:checked ~ span span { @apply opacity-100; }
+.tableCheckbox:checked ~ span { @apply border-brand-500 bg-brand-500; }
+
+.form-check-input:checked ~ span { @apply border-brand-500 dark:border-brand-500 border-[6px]; }
+
+.taskCheckbox:checked ~ .box span { @apply opacity-100; }
+.taskCheckbox:checked ~ p { @apply text-gray-400 line-through; }
+.taskCheckbox:checked ~ .box { @apply border-brand-500 bg-brand-500 dark:border-brand-500; }
+
+.task { transition: all 0.2s ease; }
+.task.is-dragging {
+  border-radius: 0.75rem;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  opacity: 0.8;
+  cursor: grabbing;
+}
+
+/* === Card & Layout Dark Fix === */
+.dark main {
+  @apply bg-gray-900;
+}
+.dark .bg-white,
+.dark .card,
+.dark .rounded-lg,
+.dark .shadow,
+.dark .border {
+  background-color: #1a2231 !important;
+  border-color: #2d3648 !important;
+  color: #e5e7eb !important;
+}
+.dark .text-gray-700,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: #e5e7eb !important;
+}
+
+
+/* === ApexCharts, Flatpickr, FullCalendar === */
+.apexcharts-legend-text { @apply text-gray-700 dark:text-gray-400; }
+.apexcharts-text { @apply fill-gray-700 dark:fill-gray-400; }
+.apexcharts-tooltip.apexcharts-theme-light {
+  @apply shadow-md gap-1 rounded-lg border border-gray-200 p-3 dark:border-gray-800 dark:bg-gray-900;
+}
+.apexcharts-tooltip-marker { @apply mr-1.5 h-1.5 w-1.5; }
+
+.jvm-container { @apply bg-gray-50 dark:bg-gray-900; }
+.jvm-region.jvm-element { @apply fill-gray-300 hover:fill-brand-500 dark:fill-gray-700 dark:hover:fill-brand-500; }
+.jvm-marker.jvm-element { @apply stroke-gray-200 dark:stroke-gray-800; }
+
+.flatpickr-wrapper { @apply w-full; }
+.flatpickr-calendar {
+  @apply mt-2 rounded-xl p-5 text-gray-500 shadow-lg bg-white dark:bg-gray-900 dark:text-gray-400 border border-gray-200 dark:border-gray-700;
+}
+.flatpickr-weekday { @apply text-sm font-medium text-gray-500 dark:text-gray-400; }
+.flatpickr-day { @apply text-sm flex items-center font-medium text-gray-800 dark:text-white transition; }
+.flatpickr-day:hover { @apply border-gray-50 bg-gray-50 dark:bg-white/5; }
+.flatpickr-day.selected {
+  @apply border-brand-500 bg-brand-500 text-white dark:text-white;
+}
+
+/* === FullCalendar === */
+.fc-button-group .fc-button {
+  @apply flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-transparent hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-900;
+}
+.fc-toolbar-title { @apply text-lg font-medium text-gray-800 dark:text-white; }
+.fc-theme-standard th {
+  @apply border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900;
+}
+.fc-theme-standard td { @apply border-gray-200 dark:border-gray-800; }
+.fc-daygrid-day-number { @apply p-3 text-sm font-medium text-gray-700 dark:text-gray-400; }
+
+/* === Swiper Sliders === */
+.swiper-button-prev svg,
+.swiper-button-next svg { @apply w-auto h-auto; }
+.carouselTwo .swiper-button-next,
+.carouselTwo .swiper-button-prev,
+.carouselFour .swiper-button-next,
+.carouselFour .swiper-button-prev {
+  @apply h-10 w-10 rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:text-gray-400;
+}
+.carouselThree .swiper-pagination-bullet,
+.carouselFour .swiper-pagination-bullet {
+  @apply h-2.5 w-2.5 bg-white opacity-100 transition;
+}
+.carouselThree .swiper-pagination-bullet-active,
+.carouselFour .swiper-pagination-bullet-active { @apply w-6 rounded-xl; }
+
+/* === Misc Utilities === */
+.input-date-icon::-webkit-inner-spin-button,
+.input-date-icon::-webkit-calendar-picker-indicator { opacity: 0; -webkit-appearance: none; }
+
+.event-fc-color { @apply rounded-lg py-2.5 pr-3 pl-4; }
+.event-fc-color .fc-event-title { @apply p-0 text-sm font-normal text-gray-700; }
+.event-fc-color.fc-bg-success { @apply bg-green-50 border-green-50; }
+.event-fc-color.fc-bg-danger { @apply bg-red-50 border-red-50; }
+.event-fc-color.fc-bg-primary { @apply bg-brand-50 border-brand-50; }
+.event-fc-color.fc-bg-warning { @apply bg-orange-50 border-orange-50; }
