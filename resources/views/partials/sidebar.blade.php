@@ -55,14 +55,20 @@
           <!-- DASHBOARD -->
           <li>
             <a
-              href="#"
-              @click.prevent="selected = (selected === 'Dashboard' ? '' : 'Dashboard')"
+              href="{{ url('/dashboard') }}"
+              @click="page = 'Dashboard'"
               class="menu-item group"
-              :class="(selected === 'Dashboard') ? 'menu-item-active' : 'menu-item-inactive'"
+              :class="[
+                (page === 'Dashboard' || '{{ request()->is('dashboard') ? 'true' : 'false' }}' === 'true')
+                  ? 'menu-item-active'
+                  : 'menu-item-inactive'
+              ]"
             >
               <!-- Icon: Home / Dashboard -->
               <svg
-                :class="(selected === 'Dashboard') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                :class="(page === 'Dashboard' || '{{ request()->is('dashboard') ? 'true' : 'false' }}' === 'true')
+                  ? 'menu-item-icon-active'
+                  : 'menu-item-icon-inactive'"
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-6 h-6"
                 fill="none"
@@ -136,7 +142,15 @@
             <!-- DROPDOWN -->
             <div class="overflow-hidden transform translate" :class="(selected === 'Master') ? 'block' : 'hidden'">
               <ul class="flex flex-col gap-1 mt-2 menu-dropdown pl-9" :class="sidebarToggle ? 'lg:hidden' : 'flex'">
-                <li><a href="#" class="menu-dropdown-item group" :class="page === 'Role' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">Role</a></li>
+                <li>
+                  <a 
+                    href="{{ route('roles.index') }}" 
+                    class="menu-dropdown-item group {{ request()->is('roles*') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
+                  >
+                    Role
+                  </a>
+                </li>
+
                 <li><a href="#" class="menu-dropdown-item group" :class="page === 'User' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">User</a></li>
                 <li><a href="#" class="menu-dropdown-item group" :class="page === 'Kategori' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">Kategori</a></li>
                 <li><a href="#" class="menu-dropdown-item group" :class="page === 'Komoditas' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">Komoditas</a></li>

@@ -19,14 +19,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', function () {
+Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
 
 
-// Route::controller(RoleController::class)->group(function () {
-//     Route::resource('/roles', RoleController::class);
-// });
+Route::controller(RoleController::class)->group(function () {
+    Route::resource('/roles', RoleController::class);
+});
 
-Route::resource('roles', RoleController::class);
+
 
