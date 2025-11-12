@@ -614,7 +614,7 @@
             <img src="{{ asset('tailadmin/images/user/owner.jpg') }}" alt="User" />
           </span>
 
-          <span class="text-theme-sm mr-1 block font-medium"> Musharof </span>
+          <span class="text-theme-sm mr-1 block font-medium"> Jokowi </span>
 
           <svg
             :class="dropdownOpen && 'rotate-180'"

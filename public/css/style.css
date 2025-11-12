@@ -702,6 +702,9 @@ body{
 .ml-4{
   margin-left: 1rem;
 }
+.ml-auto{
+  margin-left: auto;
+}
 .mr-1{
   margin-right: 0.25rem;
 }
@@ -885,6 +888,9 @@ body{
 }
 .w-2{
   width: 0.5rem;
+}
+.w-28{
+  width: 7rem;
 }
 .w-4{
   width: 1rem;
@@ -1074,6 +1080,9 @@ body{
 }
 .animate-spin{
   animation: spin 1s linear infinite;
+}
+.cursor-not-allowed{
+  cursor: not-allowed;
 }
 .cursor-pointer{
   cursor: pointer;
@@ -1681,6 +1690,10 @@ body{
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity, 1));
 }
+.text-blue-600{
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity, 1));
+}
 .text-blue-light-500{
   --tw-text-opacity: 1;
   color: rgb(11 165 236 / var(--tw-text-opacity, 1));
@@ -1745,6 +1758,10 @@ body{
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
+.text-red-600{
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
 .text-red-700{
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity, 1));
@@ -1786,6 +1803,9 @@ body{
 .antialiased{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.opacity-70{
+  opacity: 0.7;
 }
 .opacity-75{
   opacity: 0.75;
@@ -1868,6 +1888,32 @@ body{
 }
 
 /* === Base Resets === */
+
+/* === Custom Button That Ignores Dark Mode === */
+.btn-brand-stable{
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity, 1));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+.btn-brand-stable:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(54 65 245 / var(--tw-bg-opacity, 1));
+}
+
+/* Tetap sama di dark mode */
+.dark .btn-brand-stable {
+  background-color: rgb(var(--color-brand-500, 59, 130, 246)) !important; /* fallback ke warna brand-500 */
+  color: #fff !important;
+}
+
+.dark .btn-brand-stable:hover {
+  background-color: rgb(var(--color-brand-600, 37, 99, 235)) !important; /* fallback ke warna brand-600 */
+}
+
 
 /* === Sidebar & Menu Items === */
 .menu-item{
@@ -2636,10 +2682,6 @@ body{
 .dark\:hidden:is(.dark *){
   display: none;
 }
-.dark\:divide-gray-700:is(.dark *) > :not([hidden]) ~ :not([hidden]){
-  --tw-divide-opacity: 1;
-  border-color: rgb(52 64 84 / var(--tw-divide-opacity, 1));
-}
 .dark\:divide-gray-800:is(.dark *) > :not([hidden]) ~ :not([hidden]){
   --tw-divide-opacity: 1;
   border-color: rgb(29 41 57 / var(--tw-divide-opacity, 1));
@@ -2737,6 +2779,10 @@ body{
 .dark\:stroke-gray-400:is(.dark *){
   stroke: #98a2b3;
 }
+.dark\:text-blue-400:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity, 1));
+}
 .dark\:text-blue-light-500:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(11 165 236 / var(--tw-text-opacity, 1));
@@ -2768,6 +2814,10 @@ body{
 .dark\:text-orange-400:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(253 133 58 / var(--tw-text-opacity, 1));
+}
+.dark\:text-red-400:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(248 113 113 / var(--tw-text-opacity, 1));
 }
 .dark\:text-success-500:is(.dark *){
   --tw-text-opacity: 1;
@@ -2822,6 +2872,10 @@ body{
 .dark\:hover\:bg-white\/\[0\.07\]:hover:is(.dark *){
   background-color: rgb(255 255 255 / 0.07);
 }
+.dark\:hover\:text-blue-300:hover:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity, 1));
+}
 .dark\:hover\:text-gray-200:hover:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(228 231 236 / var(--tw-text-opacity, 1));
@@ -2829,6 +2883,10 @@ body{
 .dark\:hover\:text-gray-300:hover:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(208 213 221 / var(--tw-text-opacity, 1));
+}
+.dark\:hover\:text-red-300:hover:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(252 165 165 / var(--tw-text-opacity, 1));
 }
 .dark\:hover\:text-white:hover:is(.dark *){
   --tw-text-opacity: 1;
@@ -2956,8 +3014,17 @@ body{
   }
 }
 @media (min-width: 768px){
+  .md\:col-span-5{
+    grid-column: span 5 / span 5;
+  }
+  .md\:col-span-7{
+    grid-column: span 7 / span 7;
+  }
   .md\:w-\[668px\]{
     width: 668px;
+  }
+  .md\:grid-cols-12{
+    grid-template-columns: repeat(12, minmax(0, 1fr));
   }
   .md\:grid-cols-2{
     grid-template-columns: repeat(2, minmax(0, 1fr));
