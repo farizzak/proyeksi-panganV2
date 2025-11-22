@@ -1,6 +1,6 @@
 @extends('layouts.tailadmin')
 
-@section('title', 'Role')
+@section('title', 'Komoditas')
 
 
 @push('styles')
@@ -67,6 +67,29 @@
     #dataTable tbody tr { transition: background-color .15s ease; }
     #dataTable tbody tr:hover { background-color:rgb(249 250 251); }
     html.dark #dataTable tbody tr:hover { background-color:rgb(31 41 55); }
+
+    .toggle-bg {
+      position: relative;
+      transition: all .3s;
+    }
+    .toggle-bg::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 999px;
+      transition: all .3s;
+    }
+    input:checked + .toggle-bg {
+      background-color: rgb(59 130 246); /* blue */
+    }
+    input:checked + .toggle-bg::after {
+      transform: translateX(20px);
+    }
+
   </style>
 @endpush
 
@@ -74,69 +97,36 @@
   <div class="container mx-auto px-4 py-6">
     <!-- Header -->
     <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800 mb-6">
-      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Role</h2>
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Komoditas</h2>
+
+      <a href="{{ route('komoditas.create') }}"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition">
+        <i class="fa-solid fa-plus"></i>
+        Tambah Komoditas
+      </a>
     </div>
 
+
     <!-- Grid Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 gap-6">
       <!-- TABLE SECTION -->
-      <div class="md:col-span-7">
+      <div>
         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-4">
           <div class="overflow-x-auto">
             <table id="dataTable" class="min-w-full text-sm">
               <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <tr>
                   <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">No.</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Kategori</th>
                   <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Name</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Satuan</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Status</th>
                   <th class="px-4 py-3 text-center font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Action</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 dark:divide-gray-800"></tbody>
             </table>
           </div>
-        </div>
-      </div>
-
-      <!-- FORM SECTION -->
-      <div class="md:col-span-5">
-        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-6">
-          <form id="myform" method="POST" action="{{ route('roles.store') }}" class="space-y-6">
-            @csrf
-            <input type="hidden" name="_method" id="method" value="post">
-
-            <h3 id="formtitle" class="text-lg font-semibold text-gray-800 dark:text-gray-100">Add Role</h3>
-
-            <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Name..."
-                required
-                class="mt-1 w-full rounded-lg border border-gray-200 bg-transparent px-3 py-2 text-gray-800 
-                      placeholder:text-gray-400 outline-none transition-all duration-200
-                      focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20
-                      dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:placeholder:text-gray-500
-                      dark:focus:border-brand-400 dark:focus:ring-brand-400/20"
-              />
-            </div>
-
-            <div class="flex justify-end gap-3 pt-2">
-              <button type="button" id="cancelEdit" 
-                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg
-                      dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">
-                Reset
-              </button>
-              <button type="submit" 
-                class="btn-brand-stable px-4 py-2 text-sm font-medium text-white rounded-lg flex items-center gap-1">
-                Submit
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-              </button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
@@ -147,7 +137,7 @@
     <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg w-full max-w-md p-6">
       <div class="text-center space-y-4">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Delete Confirmation</h2>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this role?</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this Komoditas?</p>
       </div>
       <div class="mt-6 flex justify-end gap-3">
         <button type="button" id="cancelDelete"
@@ -174,7 +164,7 @@
   $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
   $(document).ready(function () {
-    const baseUrl = "{{ url('roles') }}";
+    const baseUrl = "{{ url('komoditas') }}";
     const $form   = $('#myform');
     const $submit = $('#myform button[type="submit"]');
     const $method = $('#method');
@@ -184,32 +174,68 @@
     const table = $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "{{ route('roles.index') }}",
+      ajax: "{{ route('komoditas.index') }}",
       columns: [
-        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false,
-          className: 'px-4 py-3 text-gray-700 dark:text-gray-200 w-16' },
-        { data: 'name', name: 'name', className: 'px-4 py-3 text-gray-800 dark:text-gray-100' },
-        {
+        { 
+          data: 'DT_RowIndex',
+          orderable: false,
+          searchable: false,
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'kategori',
+          name: 'kategori',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'name',
+          name: 'name',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'satuan',
+          name: 'satuan',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'status_toggle',
+          name: 'status',
+          orderable: false,
+          searchable: false,
+          className: 'px-4 py-3 text-center',
+          render: function(status, type, row) {
+            const checked = status == 1 ? 'checked' : '';
+            return `
+              <label class="inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="status-toggle sr-only" data-id="${row.id}" ${checked}>
+                <span class="w-11 h-6 rounded-full shadow-inner toggle-bg ${checked ? 'bg-blue-500' : 'bg-gray-300'}"></span>
+              </label>
+            `;
+          }
+        },
+        { 
           data: 'id',
           orderable: false,
           searchable: false,
-          className: 'px-4 py-3 text-center w-28',
-          render: function (id, type, row) {
-            const safeName = $('<div>').text(row.name ?? '').html();
+          className: 'px-4 py-3 text-center',
+          render: function(id, type, row) {
             return `
               <div class="flex justify-center gap-3">
-                <button class="edit-btn text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-                        data-id="${id}" data-name="${safeName}" title="Edit" aria-label="Edit ${safeName}">
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </button>
-                <button class="delete-btn text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-                        data-id="${id}" data-name="${safeName}" title="Delete" aria-label="Delete ${safeName}">
+                <a href="/komoditas/${id}/edit" 
+                  class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                  <i class="fa-solid fa-pen"></i>
+                </a>
+
+                <button class="delete-btn text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                        data-id="${id}">
                   <i class="fa-solid fa-trash"></i>
                 </button>
-              </div>`;
+              </div>
+            `;
           }
         }
       ],
+
       order: [[0, 'asc']],
       responsive: true,
       stateSave: true,
@@ -263,99 +289,53 @@
       }
     });
 
-    // Submit (Create / Update)
-    $form.on('submit', function (e) {
-      e.preventDefault();
+    $('#dataTable').on('change', '.status-toggle', function () {
+      const id = $(this).data('id');
+      const status = $(this).is(':checked') ? 1 : 0;
 
-      const isCreate = $method.val() === 'post';
-      const url = isCreate ? "{{ route('roles.store') }}" : `${baseUrl}/${$form.data('edit-id')}`;
-      const httpMethod = isCreate ? 'POST' : 'PUT';
-
-      $submit.prop('disabled', true).addClass('opacity-70 cursor-not-allowed');
-
-      $.ajax({
-        url: url,
-        method: httpMethod,
-        data: $form.serialize(),
-        success: function (res) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: res.message || 'Data berhasil disimpan!',
-            toast: true, position: 'top-end', showConfirmButton: false, timer: 1800
-          });
-          resetForm();
-          table.ajax.reload(null, false);
-        },
-        error: function (xhr) {
-          const msg = xhr.responseJSON?.message
-            || (xhr.status === 422 ? 'Validasi gagal. Periksa input.' : 'Terjadi kesalahan!');
-          Swal.fire({ icon: 'error', title: 'Error', text: msg });
-        },
-        complete: function () {
-          $submit.prop('disabled', false).removeClass('opacity-70 cursor-not-allowed');
-        }
+      $.post(`/komoditas/${id}/status`, { status }, function (res) {
+        Swal.fire({
+          icon: 'success',
+          title: res.message,
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1300,
+        });
+      }).fail(function () {
+        Swal.fire('Error', 'Gagal mengubah status', 'error');
       });
     });
 
-    function resetForm() {
-      $title.text('Add Role');
-      $method.val('post');
-      $form.removeData('edit-id');
-      $form.attr('action', "{{ route('roles.store') }}")[0].reset();
-      $('#name').blur();
-    }
 
-    // Edit
-    $('#dataTable').on('click', '.edit-btn', function () {
-      const id = $(this).data('id');
-      const name = $(this).data('name');
 
-      $title.text('Edit Role');
-      $method.val('put');
-      $form.attr('action', `${baseUrl}/${id}`).data('edit-id', id);
-      $('#name').val($('<div>').html(name).text()).trigger('focus');
-    });
-
-    // Cancel edit
-    $('#cancelEdit').on('click', function () {
-      resetForm();
-    });
 
     // Delete
     $('#dataTable').on('click', '.delete-btn', function () {
-      const id = $(this).data('id');
-      const name = $(this).data('name');
+        const id = $(this).data('id');
 
-      Swal.fire({
-        title: 'Are you sure?',
-        text: `Role "${$('<div>').html(name).text()}" akan dihapus!`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((r) => {
-        if (!r.isConfirmed) return;
-        $.ajax({
-          url: `${baseUrl}/${id}`,
-          method: 'DELETE',
-          success: function (res) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Deleted!',
-              text: res.message || 'Data berhasil dihapus!',
-              toast: true, position: 'top-end', showConfirmButton: false, timer: 1800
+        Swal.fire({
+            title: 'Delete this item?',
+            text: 'Komoditas akan dihapus permanen.',
+            icon: 'warning',
+            showCancelButton: true
+        }).then(result => {
+            if (!result.isConfirmed) return;
+
+            $.ajax({
+                url: `/komoditas/${id}`,
+                method: 'DELETE',
+                success: function (res) {
+                    Swal.fire('Deleted!', res.message, 'success');
+                    table.ajax.reload();
+                },
+                error: function () {
+                    Swal.fire('Error', 'Gagal menghapus data', 'error');
+                }
             });
-            table.ajax.reload(null, false);
-            if ($form.data('edit-id') == id) resetForm();
-          },
-          error: function () {
-            Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal menghapus data!' });
-          }
         });
-      });
     });
+
   });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>

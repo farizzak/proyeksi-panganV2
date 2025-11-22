@@ -42,6 +42,22 @@ html {
   }
 }
 
+/* === Custom Button That Ignores Dark Mode === */
+.btn-brand-stable {
+  @apply bg-brand-500 hover:bg-brand-600 text-white transition-colors duration-300;
+}
+
+/* Tetap sama di dark mode */
+.dark .btn-brand-stable {
+  background-color: rgb(var(--color-brand-500, 59, 130, 246)) !important; /* fallback ke warna brand-500 */
+  color: #fff !important;
+}
+
+.dark .btn-brand-stable:hover {
+  background-color: rgb(var(--color-brand-600, 37, 99, 235)) !important; /* fallback ke warna brand-600 */
+}
+
+
 /* === Sidebar & Menu Items === */
 .menu-item {
   @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-sm transition-colors;
