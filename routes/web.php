@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\KategoriController;
 
 
 /*
@@ -26,6 +27,10 @@ Route::get('/dashboard', function () {
 
 Route::controller(RoleController::class)->group(function () {
     Route::resource('/roles', RoleController::class);
+});
+
+Route::controller(KategoriController::class)->group(function () {
+    Route::resource('/kategori', KategoriController::class);
 });
 
 
