@@ -156,8 +156,7 @@
 
                         @if($komoditas->url_gambar)
                             <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Gambar saat ini:</p>
-                            <img src="{{ asset('storage/'.$komoditas->url_gambar) }}"
-                                 class="mt-2 h-20 rounded-lg border dark:border-gray-700" />
+                            <img src="{{ asset($komoditas->url_gambar) }}" class="mt-2 h-20 rounded-lg border dark:border-gray-700" />
                         @endif
                     </div>
 
@@ -165,7 +164,7 @@
 
                 <!-- Buttons -->
                 <div class="flex items-center justify-end gap-3 px-5 pb-5">
-                    <a href="{{ route('komoditas.index') }}" class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">Batal</a>
+                    <a href="{{ route('komoditas.index') }}" class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">Kembali</a>
                     <button class="px-5 py-2 rounded-lg bg-brand-600 text-white text-sm hover:bg-brand-700">
                         Update
                     </button>
