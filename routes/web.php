@@ -33,10 +33,6 @@ Route::controller(KategoriController::class)->group(function () {
     Route::resource('/kategori', KategoriController::class);
 });
 
-
-// ==========================
-// User Management
-// ==========================
 Route::controller(UserController::class)->group(function () {
     Route::resource('users', UserController::class);
     Route::get('users/restore/{id}', 'restore')->name('users.restore');

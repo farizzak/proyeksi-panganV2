@@ -17,7 +17,7 @@ class UserController extends Controller
 
             return datatables()->of($datas)
                 ->addIndexColumn()
-                ->addColumn('role_name', function($row){
+                ->addColumn('role', function($row) {
                     return $row->role->name ?? '-';
                 })
                 ->toJson();

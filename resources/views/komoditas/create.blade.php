@@ -1,74 +1,191 @@
 @extends('layouts.tailadmin')
 
 @section('content')
-<div class="p-6 space-y-6">
+<div class="grid grid-cols-1 gap-6">
+    <div class="space-y-6">
 
-    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-6">
-        <h2 class="text-xl font-semibold mb-4">Tambah Komoditas</h2>
+        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
 
-        <form action="{{ route('komoditas.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
-            @csrf
-
-            {{-- Kategori --}}
-            <div>
-                <label class="block font-medium mb-1">Kategori</label>
-                <select name="kategori_id" class="form-input w-full">
-                    <option value="">-- Pilih Kategori --</option>
-                    @foreach($kategories as $item)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                    @endforeach
-                </select>
+            {{-- Header --}}
+            <div class="px-5 py-4 sm:px-6 sm:py-5">
+                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                    Tambah Komoditas
+                </h3>
             </div>
 
-            {{-- Name --}}
-            <div>
-                <label class="block font-medium mb-1">Nama Komoditas</label>
-                <input type="text" name="name" class="form-input w-full">
-            </div>
+            {{-- FORM --}}
+            <form action="{{ route('komoditas.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-            {{-- Satuan --}}
-            <div>
-                <label class="block font-medium mb-1">Satuan</label>
-                <input type="text" name="satuan" class="form-input w-full">
-            </div>
+                <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
 
-            {{-- Tipe Acuan --}}
-            <div>
-                <label class="block font-medium mb-1">Tipe Acuan</label>
-                <select name="tipe_acuan" class="form-input w-full">
-                    <option value="HAP">HAP</option>
-                    <option value="HET">HET</option>
-                </select>
-            </div>
+                    {{-- Kategori --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Kategori
+                        </label>
 
-            {{-- Batas --}}
-            <div class="grid grid-cols-3 gap-4">
-                <div>
-                    <label class="block mb-1 font-medium">Batas Aman</label>
-                    <input type="number" name="batas_aman" class="form-input w-full">
+                        <div x-data="{ selected: false }" class="relative bg-transparent">
+                            <select name="kategori_id"
+                                class="dark:bg-dark-900 shadow-theme-xs
+                                       focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800
+                                       h-11 w-full appearance-none rounded-lg border border-gray-300
+                                       bg-transparent bg-none px-4 py-2.5 pr-11 text-sm
+                                       text-gray-800 dark:bg-gray-900 dark:text-white/90
+                                       dark:border-gray-700 dark:placeholder:text-white/30"
+                                :class="selected && 'text-gray-800 dark:text-white/90'"
+                                @change="selected = true">
+
+                                <option value="" class="text-gray-400 dark:bg-gray-900 dark:text-gray-400">
+                                    -- Pilih Kategori --
+                                </option>
+
+                                @foreach($kategories as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                            <span class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 dark:text-gray-400">
+                                <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4.8 7.4L10 12.6L15.2 7.4"
+                                          stroke-width="1.5"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    {{-- Nama Komoditas --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Nama Komoditas
+                        </label>
+                        <input type="text" name="name"
+                               class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
+                                      dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
+                                      bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400
+                                      dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                    </div>
+
+                    {{-- Satuan --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Satuan
+                        </label>
+                        <input type="text" name="satuan"
+                               class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
+                                      dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
+                                      bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400
+                                      dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                    </div>
+
+                    {{-- Tipe Acuan --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Tipe Acuan
+                        </label>
+
+                        <div x-data="{ selected: false }" class="relative bg-transparent">
+                            <select name="tipe_acuan"
+                                class="dark:bg-dark-900 shadow-theme-xs
+                                       focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800
+                                       h-11 w-full appearance-none rounded-lg border border-gray-300
+                                       bg-transparent bg-none px-4 py-2.5 pr-11 text-sm
+                                       text-gray-800 dark:bg-gray-900 dark:text-white/90
+                                       dark:border-gray-700 dark:placeholder:text-white/30"
+                                :class="selected && 'text-gray-800 dark:text-white/90'"
+                                @change="selected = true">
+
+                                <option value="" class="text-gray-400 dark:text-gray-400">
+                                    -- Pilih Tipe Acuan --
+                                </option>
+
+                                <option value="HAP">HAP</option>
+                                <option value="HET">HET</option>
+
+                            </select>
+
+                            <span class="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500 dark:text-gray-400">
+                                <svg class="stroke-current" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4.8 7.4L10 12.6L15.2 7.4"
+                                          stroke-width="1.5"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    {{-- Batas Aman --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Batas Aman (%)
+                        </label>
+                        <input type="number" name="batas_aman"
+                               class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
+                                      dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
+                                      bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
+                                      dark:bg-gray-900 dark:text-white/90">
+                    </div>
+
+                    {{-- Batas Waspada --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Batas Waspada (%)
+                        </label>
+                        <input type="number" name="batas_waspada"
+                               class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
+                                      dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
+                                      bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
+                                      dark:bg-gray-900 dark:text-white/90">
+                    </div>
+
+                    {{-- Batas Intervensi --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Batas Intervensi (%)
+                        </label>
+                        <input type="number" name="batas_intervensi"
+                               class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
+                                      dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
+                                      bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
+                                      dark:bg-gray-900 dark:text-white/90">
+                    </div>
+
+                    {{-- Gambar --}}
+                    <div>
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Upload Gambar
+                        </label>
+                        <input type="file" name="url_gambar"
+                               class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
+                                      dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
+                                      bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
+                                      dark:bg-gray-900 dark:text-white/90">
+                    </div>
+
                 </div>
-                <div>
-                    <label class="block mb-1 font-medium">Batas Waspada</label>
-                    <input type="number" name="batas_waspada" class="form-input w-full">
-                </div>
-                <div>
-                    <label class="block mb-1 font-medium">Batas Intervensi</label>
-                    <input type="number" name="batas_intervensi" class="form-input w-full">
-                </div>
-            </div>
 
-            {{-- Gambar --}}
-            <div>
-                <label class="block mb-1 font-medium">Gambar</label>
-                <input type="file" name="url_gambar" class="form-input w-full">
-            </div>
+                {{-- Button --}}
+                <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-100 dark:border-gray-800">
+                    <a href="{{ route('komoditas.index') }}"
+                       class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        Kembali
+                    </a>
 
-            <div class="pt-4 flex justify-end">
-                <a href="{{ route('komoditas.index') }}" class="btn-secondary mr-3">Batal</a>
-                <button class="btn-primary">Simpan</button>
-            </div>
-        </form>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
+                        Simpan
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
     </div>
-
 </div>
 @endsection

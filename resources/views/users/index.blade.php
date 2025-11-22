@@ -1,190 +1,310 @@
 @extends('layouts.tailadmin')
 
-@section('title', 'Users')
+@section('title', 'User')
+
+
+@push('styles')
+  <style>
+    /* Matikan float default DataTables agar flex bisa bekerja */
+    #dataTable_wrapper .dataTables_filter,
+    #dataTable_wrapper .dataTables_length,
+    #dataTable_wrapper .dataTables_info,
+    #dataTable_wrapper .dataTables_paginate {
+      float: none !important;
+      width: auto;
+    }
+
+    /* BAR ATAS: search kiri, length kanan (via .ml-auto wrapper) */
+    #dataTable_wrapper .dt-topbar{
+      width:100%;
+      display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;
+    }
+    #dataTable_wrapper .dt-topbar .dataTables_filter label{
+      display:flex; align-items:center; gap:.5rem;
+    }
+    #dataTable_wrapper .dt-topbar .dataTables_filter input{
+      padding:.5rem .75rem; border-width:1px; border-radius:.5rem; outline:none;
+      border-color:rgb(229 231 235); background:transparent; color:rgb(31 41 55);
+      width:16rem;
+    }
+    html.dark #dataTable_wrapper .dt-topbar .dataTables_filter input{
+      border-color:rgb(55 65 81); color:rgb(243 244 246); background-color:rgb(17 24 39);
+    }
+
+    /* Dorong container length & paginate ke kanan */
+    #dataTable_wrapper .dt-topbar .ml-auto{ margin-left:auto; }
+    #dataTable_wrapper .dt-bottombar .ml-auto{ margin-left:auto; }
+
+    /* BAR BAWAH: info kiri, paginate kanan */
+    #dataTable_wrapper .dt-bottombar{
+      width:100%;
+      display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+    }
+    #dataTable_wrapper .dataTables_info { font-size:.875rem; color:rgb(75 85 99); }
+    html.dark #dataTable_wrapper .dataTables_info { color:rgb(209 213 219); }
+
+    #dataTable_wrapper .dataTables_paginate{
+      display:flex; align-items:center; gap:.25rem;
+    }
+    #dataTable_wrapper .dataTables_paginate .paginate_button{
+      padding:.375rem .625rem; border-radius:.5rem; border:1px solid rgb(229 231 235);
+      background:transparent; color:rgb(31 41 55) !important; cursor:pointer; font-size:.875rem;
+    }
+    #dataTable_wrapper .dataTables_paginate .paginate_button.current,
+    #dataTable_wrapper .dataTables_paginate .paginate_button:hover{
+      background: rgb(59 130 246 / .08); border-color: rgb(59 130 246);
+      color: rgb(59 130 246) !important;
+    }
+    html.dark #dataTable_wrapper .dataTables_paginate .paginate_button{
+      border-color:rgb(55 65 81); color:rgb(243 244 246) !important;
+    }
+    html.dark #dataTable_wrapper .dataTables_paginate .paginate_button.current,
+    html.dark #dataTable_wrapper .dataTables_paginate .paginate_button:hover{
+      background: rgb(59 130 246 / .18); border-color: rgb(59 130 246); color: rgb(191 219 254) !important;
+    }
+
+    /* Hover row */
+    #dataTable tbody tr { transition: background-color .15s ease; }
+    #dataTable tbody tr:hover { background-color:rgb(249 250 251); }
+    html.dark #dataTable tbody tr:hover { background-color:rgb(31 41 55); }
+
+    .toggle-bg {
+      position: relative;
+      transition: all .3s;
+    }
+    .toggle-bg::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 999px;
+      transition: all .3s;
+    }
+    input:checked + .toggle-bg {
+      background-color: rgb(59 130 246); /* blue */
+    }
+    input:checked + .toggle-bg::after {
+      transform: translateX(20px);
+    }
+
+  </style>
+@endpush
 
 @section('content')
-<div class="space-y-6">
-
+  <div class="container mx-auto px-4 py-6">
     <!-- Header -->
-    <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800">
-        <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Users</h2>
-    </div>
-    
-    <!-- Table Card -->
-    <div class="bg-white dark:bg-gray-900 border border-gray-600 dark:border-gray-800 rounded-2xl shadow-sm p-6 space-y-4">
-        <!-- Top Controls -->
-        <div class="w-full flex flex-col md:flex-row md:items-center gap-4 mb-4">
-            <!-- LEFT: Search + Length + Add -->
-            <div class="flex flex-wrap items-center gap-3">
-                <!-- Search -->
-                <div id="usersTable_search_container"></div>
-                <!-- Show Entries Dropdown -->
-                <div id="usersTable_length_container"></div>
-                <!-- Add button -->
-                <a href="{{ route('users.create') }}"
-                    class="px-4 py-2 text-sm font-medium text-white bg-brand-500 hover:bg-brand-600 rounded-lg shadow-sm">
-                    + Add User
-                </a>
-            </div>
-        </div>
+    <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800 mb-6">
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">User</h2>
 
-        <!-- Table -->
-        <div class="overflow-x-auto">
-            <table id="usersTable" class="min-w-full border border-gray-300 dark:border-gray-700 divide-y divide-gray-300 dark:divide-gray-700">               
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr class="divide-x divide-gray-300 dark:divide-gray-700">
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">No.</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Username</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Name</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Email</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Role</th>
-                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700"></tbody>
+      <a href="{{ route('users.create') }}"
+        class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition">
+        <i class="fa-solid fa-plus"></i>
+        Tambah User
+      </a>
+    </div>
+
+
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 gap-6">
+      <!-- TABLE SECTION -->
+      <div>
+        <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-4">
+          <div class="overflow-x-auto">
+            <table id="dataTable" class="min-w-full text-sm">
+              <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">No.</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Username</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Name</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Email</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Role</th>
+                  <th class="px-4 py-3 text-center font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-800"></tbody>
             </table>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
+  <!-- Delete Modal -->
+  <div id="deleteModal" class="fixed inset-0 z-50 items-center justify-center bg-black/50 hidden">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg w-full max-w-md p-6">
+      <div class="text-center space-y-4">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Delete Confirmation</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this User?</p>
+      </div>
+      <div class="mt-6 flex justify-end gap-3">
+        <button type="button" id="cancelDelete"
+          class="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 rounded-lg">
+          Cancel
+        </button>
+        <form id="delform" method="POST">
+          @csrf
+          @method('DELETE')
+          <button type="submit"
+            class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 @endsection
 
+
 @push('scripts')
-<script>
-$(document).ready(function() {
+  <script>
+  // CSRF global untuk semua request jQuery
+  $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
-    const table = $('#usersTable').DataTable({
-        processing: true,
-        serverSide: false,
-        responsive: true,
-        dom: 'lrtip',
-        ajax: "{{ route('users.index') }}",
-        columns: [
-            { data: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'username' },
-            { data: 'name' },
-            { data: 'email' },
-            { data: 'role_name', defaultContent: '-' },
-            {
-                data: 'id',
-                orderable: false,
-                searchable: false,
-                className: 'text-center',
-                render: function(id) {
-                    return `
-                        <div class="flex justify-center gap-3">
-                            <a href="/users/${id}/edit" class="text-blue-500 hover:text-blue-700">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+  $(document).ready(function () {
+    const baseUrl = "{{ url('users') }}";
+    const $form   = $('#myform');
+    const $submit = $('#myform button[type="submit"]');
+    const $method = $('#method');
+    const $title  = $('#formtitle');
 
-                            <button class="delete-btn text-red-500 hover:text-red-700" data-id="${id}">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    `;
-                }
-            }
-        ]
+    // Inisialisasi DataTable
+    const table = $('#dataTable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ route('users.index') }}",
+      columns: [
+        { 
+          data: 'DT_RowIndex',
+          orderable: false,
+          searchable: false,
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'username',
+          name: 'username',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'name',
+          name: 'name',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'email',
+          name: 'email',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'role',
+          name: 'role',
+          className: 'px-4 py-3'
+        },
+        { 
+          data: 'id',
+          orderable: false,
+          searchable: false,
+          className: 'px-4 py-3 text-center',
+          render: function(id, type, row) {
+            return `
+              <div class="flex justify-center gap-3">
+                <a href="/users/${id}/edit" 
+                  class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                  <i class="fa-solid fa-pen"></i>
+                </a>
+
+                <button class="delete-btn text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                        data-id="${id}">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            `;
+          }
+        }
+      ],
+
+      order: [[0, 'asc']],
+      responsive: true,
+      stateSave: true,
+      scrollY: false,
+      pageLength: 10,
+      lengthMenu: [[10,25,50,100],[10,25,50,100]],
+
+      // === KUNCI POSISI: Search kiri, Length kanan; Info kiri, Paginate kanan
+      dom: '<"dt-topbar d-flex items-center gap-3"f<"ml-auto"l>>'
+        + '<"datatable-scroll"t>'
+        + '<"dt-bottombar d-flex items-center"i<"ml-auto"p>>',
+
+
+      language: {
+        search: 'Search:',
+        searchPlaceholder: 'Type to search...',
+        lengthMenu: 'Show: _MENU_',
+        processing: 'Loading...',
+        paginate: {
+          first: 'First', last: 'Last',
+          next: $('html').attr('dir') == 'rtl' ? '&larr;' : '&rarr;',
+          previous: $('html').attr('dir') == 'rtl' ? '&rarr;' : '&larr;'
+        }
+      },
+
+      createdRow: function (row) {
+        $(row).addClass('hover:bg-gray-50 dark:hover:bg-gray-800');
+      },
+
+      drawCallback: function () {
+        const $w = $('#dataTable_wrapper');
+        $w.find('.dataTables_info').addClass('text-gray-600 dark:text-gray-300');
+        $w.find('.dataTables_paginate').addClass('items-center');
+        $w.find('.dataTables_scroll').css('margin-bottom', '1rem');
+      },
+
+
+      initComplete: function () {
+        const $w = $('#dataTable_wrapper');
+        // kosmetik kecil
+        $w.find('.dataTables_filter').addClass('flex items-center gap-2');
+        $w.find('.dataTables_length').addClass('flex items-center gap-2');
+
+        // Debounce search
+        const $input = $w.find('.dataTables_filter input');
+        let t = null;
+        $input.off('keyup.DT').on('keyup', function () {
+          clearTimeout(t);
+          t = setTimeout(() => table.search(this.value).draw(), 300);
+        });
+      }
     });
 
-    $('#usersTable_length').hide();
-
-    // Inject Search
-    $('#usersTable_search_container').html(`
-        <input id="dtSearch" type="text"
-        placeholder="Search users..."
-        class="px-3 py-2 border rounded-lg text-sm bg-white dark:bg-gray-800 dark:border-gray-700
-        focus:ring-brand-400 focus:border-brand-400">
-    `);
-
-    $('#dtSearch').keyup(function() {
-        table.search(this.value).draw();
-    });
-
-    // Inject Length Dropdown
-    $('#usersTable_length_container').html(`
-        <select id="dtLength"
-            class="border rounded-lg px-3 py-2 bg-white dark:bg-gray-800 dark:border-gray-700">
-            ${$('#usersTable_length select').html()}
-        </select>
-    `);
-
-    $('#dtLength').on('change', function () {
-        table.page.len($(this).val()).draw();
-    });
-
-    // Delete button click
-    $('#usersTable').on('click', '.delete-btn', function() {
+    // Delete
+    $('#dataTable').on('click', '.delete-btn', function () {
         const id = $(this).data('id');
 
         Swal.fire({
-            title: 'Are you sure?',
-            text: 'This user will be deleted!',
+            title: 'Delete this item?',
+            text: 'User akan dihapus permanen.',
             icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `/users/${id}`,
-                    method: 'DELETE',
-                    data: { _token: '{{ csrf_token() }}' },
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Deleted!',
-                            text: response.message || 'User berhasil dihapus!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
+            showCancelButton: true
+        }).then(result => {
+            if (!result.isConfirmed) return;
 
-                        table.ajax.reload(null, false);
-                    },
-                    error: function() {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Gagal menghapus data!',
-                        });
-                    }
-                });
-            }
+            $.ajax({
+                url: `/users/${id}`,
+                method: 'DELETE',
+                success: function (res) {
+                    Swal.fire('Deleted!', res.message, 'success');
+                    table.ajax.reload();
+                },
+                error: function () {
+                    Swal.fire('Error', 'Gagal menghapus data', 'error');
+                }
+            });
         });
     });
 
-});
-</script>
-
-<!-- Fontawesome -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
-
-<!-- UNIVERSAL SWEETALERT FLASH HANDLER -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    @foreach (['success', 'error', 'warning', 'info', 'status', 'message'] as $msg)
-        @if(session($msg))
-
-            Swal.fire({
-                icon: '{{ $msg === "error" ? "error" : ($msg === "warning" ? "warning" : ($msg === "info" ? "info" : "success")) }}',
-                title: '{{ ucfirst($msg) }}',
-                text: "{{ session($msg) }}",
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 1800,
-                timerProgressBar: true,
-            });
-
-        @endif
-    @endforeach
-
-});
-</script>
-
-
+  });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
 @endpush
