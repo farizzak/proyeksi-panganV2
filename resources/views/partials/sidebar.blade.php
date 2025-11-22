@@ -153,7 +153,14 @@
 
                 <li><a href="#" class="menu-dropdown-item group" :class="page === 'User' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">User</a></li>
                 <li><a href="#" class="menu-dropdown-item group" :class="page === 'Kategori' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">Kategori</a></li>
-                <li><a href="#" class="menu-dropdown-item group" :class="page === 'Komoditas' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">Komoditas</a></li>
+                 <li>
+                  <a 
+                    href="{{ route('komoditas.index') }}" 
+                    class="menu-dropdown-item group {{ request()->is('komoditas*') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
+                  >
+                    Komoditas
+                  </a>
+                </li>
               </ul>
             </div>
           </li>
