@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\KomoditasController;
 use App\Http\Controllers\UserController;
 
 
@@ -26,6 +27,14 @@ Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 Route::controller(RoleController::class)->group(function () {
     Route::resource('roles', RoleController::class);
 });
+
+
+Route::controller(KomoditasController::class)->group(function () {
+    Route::post('/komoditas/{id}/status', [KomoditasController::class, 'updateStatus'])->name('komoditas.status');
+    
+    Route::resource('/komoditas', KomoditasController::class);
+});
+
 
 // ==========================
 // User Management
