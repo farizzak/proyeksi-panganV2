@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.tailadmin')
 
 @section('content')
 <div class="p-6 space-y-6">
@@ -14,7 +14,7 @@
                 <label class="block font-medium mb-1">Kategori</label>
                 <select name="kategori_id" class="form-input w-full">
                     <option value="">-- Pilih Kategori --</option>
-                    @foreach($kategori as $item)
+                    @foreach($kategories as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </select>
