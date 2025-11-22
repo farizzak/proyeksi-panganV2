@@ -22,19 +22,12 @@ use App\Http\Controllers\UserController;
 Route::view('/', 'admin.dashboard');
 Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
-// ==========================
-// Role Management
-// ==========================
+
 Route::controller(RoleController::class)->group(function () {
     Route::resource('roles', RoleController::class);
 });
 
 
-Route::controller(KomoditasController::class)->group(function () {
-    Route::post('/komoditas/{id}/status', [KomoditasController::class, 'updateStatus'])->name('komoditas.status');
-    
-    Route::resource('/komoditas', KomoditasController::class);
-});
 
 Route::controller(KategoriController::class)->group(function () {
     Route::resource('/kategori', KategoriController::class);
@@ -47,4 +40,10 @@ Route::controller(KategoriController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::resource('users', UserController::class);
     Route::get('users/restore/{id}', 'restore')->name('users.restore');
+});
+
+Route::controller(KomoditasController::class)->group(function () {
+    Route::post('/komoditas/{id}/status', [KomoditasController::class, 'updateStatus'])->name('komoditas.status');
+    
+    Route::resource('/komoditas', KomoditasController::class);
 });
