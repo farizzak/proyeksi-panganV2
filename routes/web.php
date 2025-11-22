@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\KomoditasController;
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -16,17 +17,15 @@ use App\Http\Controllers\KomoditasController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Dashboard
+Route::view('/', 'admin.dashboard');
+Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
-
-
+// ==========================
+// Role Management
+// ==========================
 Route::controller(RoleController::class)->group(function () {
-    Route::resource('/roles', RoleController::class);
+    Route::resource('roles', RoleController::class);
 });
 
 
@@ -37,3 +36,10 @@ Route::controller(KomoditasController::class)->group(function () {
 });
 
 
+// ==========================
+// User Management
+// ==========================
+Route::controller(UserController::class)->group(function () {
+    Route::resource('users', UserController::class);
+    Route::get('users/restore/{id}', 'restore')->name('users.restore');
+});

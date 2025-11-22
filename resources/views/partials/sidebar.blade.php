@@ -151,7 +151,7 @@
                   </a>
                 </li>
 
-                <li><a href="#" class="menu-dropdown-item group" :class="page === 'User' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">User</a></li>
+                <li><a href="{{ route('users.index') }}" class="menu-dropdown-item group" :class="page === 'User' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">User</a></li>
                 <li><a href="#" class="menu-dropdown-item group" :class="page === 'Kategori' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">Kategori</a></li>
                  <li>
                   <a 
