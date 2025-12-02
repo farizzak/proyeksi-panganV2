@@ -120,7 +120,7 @@
                     <!-- Batas -->
                     <div>
                         <label class="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-400">Batas Aman (%)</label>
-                        <input type="number" name="batas_aman" value="{{ $komoditas->batas_aman }}"
+                        <input type="number" step="0.01" name="batas_aman" value="{{ $komoditas->batas_aman }}"
                             class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 bg-transparent
                                    px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3
                                    outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"/>
@@ -128,7 +128,7 @@
 
                     <div>
                         <label class="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-400">Batas Waspada (%)</label>
-                        <input type="number" name="batas_waspada" value="{{ $komoditas->batas_waspada }}"
+                        <input type="number" step="0.01" name="batas_waspada" value="{{ $komoditas->batas_waspada }}"
                             class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 bg-transparent
                                    px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3
                                    outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"/>
@@ -136,7 +136,7 @@
 
                     <div>
                         <label class="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-400">Batas Intervensi (%)</label>
-                        <input type="number" name="batas_intervensi" value="{{ $komoditas->batas_intervensi }}"
+                        <input type="number" step="0.01" name="batas_intervensi" value="{{ $komoditas->batas_intervensi }}"
                             class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 bg-transparent
                                    px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 focus:ring-3
                                    outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90"/>

@@ -125,7 +125,7 @@
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Batas Aman (%)
                         </label>
-                        <input type="number" name="batas_aman"
+                        <input type="number" step="0.01" name="batas_aman"
                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
                                       dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
                                       bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
@@ -137,7 +137,7 @@
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Batas Waspada (%)
                         </label>
-                        <input type="number" name="batas_waspada"
+                        <input type="number" step="0.01" name="batas_waspada"
                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
                                       dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
                                       bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
@@ -149,7 +149,7 @@
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                             Batas Intervensi (%)
                         </label>
-                        <input type="number" name="batas_intervensi"
+                        <input type="number" step="0.01" name="batas_intervensi"
                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10
                                       dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300
                                       bg-transparent px-4 py-2.5 text-sm text-gray-800 dark:border-gray-700
