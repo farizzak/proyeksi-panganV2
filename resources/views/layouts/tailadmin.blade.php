@@ -17,7 +17,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
 
     {{-- CSS project (Laravel Mix) --}}
-    <link rel="stylesheet" href="{{ mix('css/style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ mix('css/style.css') }}"> -->
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
 
     {{-- >>> Penting: render CSS dari @push('styles') di view <<< --}}
     @stack('styles')
@@ -71,6 +74,9 @@
     @stack('scripts')
 
     {{-- Terakhir: JS project (Laravel Mix) supaya punya akses ke jQuery/DataTables yang sudah dimuat --}}
-    <script src="{{ mix('js/app.js') }}"></script>
+    <!-- <script src="{{ mix('js/app.js') }}"></script> -->
+
+    <script src="{{ asset('js/app.js') }}"></script>
+
   </body>
 </html>
