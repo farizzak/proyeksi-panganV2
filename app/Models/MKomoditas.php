@@ -15,4 +15,13 @@ class MKomoditas extends Model
     public function kategori(){
         return $this->belongsTo('\App\Models\Mkategori', 'kategori_id', 'id');
     }
+
+    public function details()
+    {
+        return $this->hasMany(TKetersediaanDetail::class, 'komoditas_id');
+    }
+
+    public function scopeActive($query) {
+        return $query->where('status', 1);
+    }
 }

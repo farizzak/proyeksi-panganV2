@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KomoditasController;
+use App\Http\Controllers\KetersediaanController;
 use App\Http\Controllers\UserController;
 
 
@@ -40,6 +41,9 @@ Route::controller(UserController::class)->group(function () {
 
 Route::controller(KomoditasController::class)->group(function () {
     Route::post('/komoditas/{id}/status', [KomoditasController::class, 'updateStatus'])->name('komoditas.status');
-    
     Route::resource('/komoditas', KomoditasController::class);
+});
+
+Route::controller(KetersediaanController::class)->group(function () {
+    Route::resource('/ketersediaan', KetersediaanController::class);
 });

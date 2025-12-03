@@ -230,7 +230,14 @@
             <!-- DROPDOWN -->
             <div class="overflow-hidden transform translate" :class="(selected === 'Transaksi Data') ? 'block' : 'hidden'">
               <ul class="flex flex-col gap-1 mt-2 menu-dropdown pl-9" :class="sidebarToggle ? 'lg:hidden' : 'flex'">
-                <li><a href="#" class="menu-dropdown-item group">Proyeksi Ketersediaan</a></li>
+                </li>
+                  <a 
+                    href="{{ route('ketersediaan.index') }}" 
+                    class="menu-dropdown-item group {{ request()->is('ketersediaan*') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
+                  >
+                    Proyeksi Ketersediaan
+                  </a>
+                </li>
                 <li><a href="#" class="menu-dropdown-item group">Rekap Ketersediaan</a></li>
                 <li><a href="#" class="menu-dropdown-item group">Scrapping Data Siharpa</a></li>
               </ul>

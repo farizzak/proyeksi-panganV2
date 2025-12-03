@@ -1,6 +1,6 @@
 @extends('layouts.tailadmin')
 
-@section('title', 'Komoditas')
+@section('title', 'Ketersediaan')
 
 
 @push('styles')
@@ -14,19 +14,21 @@
       width: auto;
     }
 
-     #dataTable td.dataTables_empty {
+    /* BAR ATAS: search kiri, length kanan (via .ml-auto wrapper) */
+
+    #dataTable td.dataTables_empty {
         text-align: center !important;
         vertical-align: middle !important;
         padding: 2rem 0 !important;
         font-size: 14px;
-        color: rgb(75 85 99) !important; 
+        color: rgb(75 85 99) !important; /* gray-600 */
     }
 
     html.dark #dataTable td.dataTables_empty {
-        color: rgb(209 213 219) !important; 
+        color: rgb(209 213 219) !important; /* gray-300 */
     }
 
-    /* BAR ATAS: search kiri, length kanan (via .ml-auto wrapper) */
+
     #dataTable_wrapper .dt-topbar{
       width:100%;
       display:flex; align-items:center; gap:.75rem; flex-wrap:wrap;
@@ -109,18 +111,56 @@
   <div class="container mx-auto px-4 py-6">
     <!-- Header -->
     <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800 mb-6">
-      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Komoditas</h2>
+      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Ketersediaan</h2>
 
-      <a href="{{ route('komoditas.create') }}"
+      <a href="{{ route('ketersediaan.create') }}"
         class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition">
         <i class="fa-solid fa-plus"></i>
-        Tambah Komoditas
+        Tambah Ketersediaan
       </a>
     </div>
 
 
     <!-- Grid Layout -->
     <div class="grid grid-cols-1 gap-6">
+
+      <!-- FILTER SECTION -->
+      <div class="mb-4 flex flex-wrap items-end gap-3">
+
+        <!-- Pilih Tahun -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tahun</label>
+          <select id="filterYear"
+                  class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+            <option value="">Semua Tahun</option>
+            @foreach(range(date('Y')-5, date('Y')+1) as $y)
+              <option value="{{ $y }}">{{ $y }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <!-- Pilih Bulan -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bulan</label>
+          <select id="filterMonth"
+                  class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+            <option value="">Semua Bulan</option>
+            @foreach(range(1,12) as $m)
+              <option value="{{ $m }}">{{ DateTime::createFromFormat('!m', $m)->format('F') }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        <button id="btnFilter" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+          Filter
+        </button>
+
+        <button id="btnReset" class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg">
+          Reset
+        </button>
+
+      </div>
+
       <!-- TABLE SECTION -->
       <div>
         <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-4">
@@ -129,10 +169,7 @@
               <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <tr>
                   <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">No.</th>
-                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Kategori</th>
-                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Name</th>
-                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Satuan</th>
-                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Status</th>
+                  <th class="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Tanggal</th>
                   <th class="px-4 py-3 text-center font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">Action</th>
                 </tr>
               </thead>
@@ -149,7 +186,7 @@
     <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg w-full max-w-md p-6">
       <div class="text-center space-y-4">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">Delete Confirmation</h2>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this Komoditas?</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Are you sure you want to delete this Ketersediaan?</p>
       </div>
       <div class="mt-6 flex justify-end gap-3">
         <button type="button" id="cancelDelete"
@@ -176,17 +213,34 @@
   $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
   $(document).ready(function () {
-    const baseUrl = "{{ url('komoditas') }}";
+    const baseUrl = "{{ url('ketersediaan') }}";
     const $form   = $('#myform');
     const $submit = $('#myform button[type="submit"]');
     const $method = $('#method');
     const $title  = $('#formtitle');
 
+    $('#btnFilter').on('click', function () {
+      table.ajax.reload();
+    });
+
+    $('#btnReset').on('click', function () {
+      $('#filterYear').val('');
+      $('#filterMonth').val('');
+      table.ajax.reload();
+    });
+
+
     // Inisialisasi DataTable
     const table = $('#dataTable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "{{ route('komoditas.index') }}",
+      ajax: {
+          url  : "{{ route('ketersediaan.index') }}",
+          data : function (d) {
+            d.year  = $('#filterYear').val();
+            d.month = $('#filterMonth').val();
+          }
+      },
       columns: [
         { 
           data: 'DT_RowIndex',
@@ -195,35 +249,9 @@
           className: 'px-4 py-3'
         },
         { 
-          data: 'kategori',
-          name: 'kategori',
+          data: 'tanggal',
+          name: 'tanggal',
           className: 'px-4 py-3'
-        },
-        { 
-          data: 'name',
-          name: 'name',
-          className: 'px-4 py-3'
-        },
-        { 
-          data: 'satuan',
-          name: 'satuan',
-          className: 'px-4 py-3'
-        },
-        { 
-          data: 'status_toggle',
-          name: 'status',
-          orderable: false,
-          searchable: false,
-          className: 'px-4 py-3 text-center',
-          render: function(status, type, row) {
-            const checked = status == 1 ? 'checked' : '';
-            return `
-              <label class="inline-flex items-center cursor-pointer">
-                <input type="checkbox" class="status-toggle sr-only" data-id="${row.id}" ${checked}>
-                <span class="w-11 h-6 rounded-full shadow-inner toggle-bg ${checked ? 'bg-blue-500' : 'bg-gray-300'}"></span>
-              </label>
-            `;
-          }
         },
         { 
           data: 'id',
@@ -233,7 +261,7 @@
           render: function(id, type, row) {
             return `
               <div class="flex justify-center gap-3">
-                <a href="/komoditas/${id}/edit" 
+                <a href="/ketersediaan/${id}/edit" 
                   class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                   <i class="fa-solid fa-pen"></i>
                 </a>
@@ -305,7 +333,7 @@
       const id = $(this).data('id');
       const status = $(this).is(':checked') ? 1 : 0;
 
-      $.post(`/komoditas/${id}/status`, { status }, function (res) {
+      $.post(`/ketersediaan/${id}/status`, { status }, function (res) {
         Swal.fire({
           icon: 'success',
           title: res.message,
@@ -328,14 +356,14 @@
 
         Swal.fire({
             title: 'Delete this item?',
-            text: 'Komoditas akan dihapus permanen.',
+            text: 'Ketersediaan akan dihapus permanen.',
             icon: 'warning',
             showCancelButton: true
         }).then(result => {
             if (!result.isConfirmed) return;
 
             $.ajax({
-                url: `/komoditas/${id}`,
+                url: `/ketersediaan/${id}`,
                 method: 'DELETE',
                 success: function (res) {
                     Swal.fire('Deleted!', res.message, 'success');

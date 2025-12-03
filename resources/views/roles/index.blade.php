@@ -14,6 +14,18 @@
       width: auto;
     }
 
+    #dataTable td.dataTables_empty {
+        text-align: center !important;
+        vertical-align: middle !important;
+        padding: 2rem 0 !important;
+        font-size: 14px;
+        color: rgb(75 85 99) !important; /* gray-600 */
+    }
+
+    html.dark #dataTable td.dataTables_empty {
+        color: rgb(209 213 219) !important; /* gray-300 */
+    }
+
     /* BAR ATAS: search kiri, length kanan (via .ml-auto wrapper) */
     #dataTable_wrapper .dt-topbar{
       width:100%;
