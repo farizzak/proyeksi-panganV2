@@ -6,7 +6,6 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KomoditasController;
 use App\Http\Controllers\KetersediaanController;
 use App\Http\Controllers\UserController;
-
 use App\Http\Controllers\LoginController;
 
 /*
@@ -17,22 +16,13 @@ use App\Http\Controllers\LoginController;
 
 Route::redirect('/', '/login');
 
-/*
-|--------------------------------------------------------------------------
-| AUTH ROUTES
-|--------------------------------------------------------------------------
-*/
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'viewLogin')->name('login');
-    Route::post('/login', 'login')->name('login.process'); // ← FIXED
-    Route::get('/logout', 'logout')->name('logout');
+    Route::post('/login', 'login')->name('login.process'); 
+    Route::post('/logout', 'logout')->name('logout');
 });
 
-/*
-|--------------------------------------------------------------------------
-| PROTECTED ROUTES (HARUS LOGIN)
-|--------------------------------------------------------------------------
-*/
+
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard

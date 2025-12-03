@@ -21,21 +21,23 @@ class LoginController extends Controller
 
   	public function login(Request $request)
 	{
-		$this->validate($request, [
-			'username' => 'required',
+		$credentials = $request->validate([
+			'email' => 'required|email',
 			'password' => 'required',
 		]);
 
-		$user = User::where('username', $request->username)->first();
+		if (Auth::attempt($credentials)) {
+			$request->session()->regenerate();
 
-		if ($user && Hash::check($request->password, $user->password)) {
-			// simpan session atau pakai Auth::login()
-			Auth::login($user);
-			return redirect()->intended('/dashboard');
+			// Paksa redirect ke dashboard
+			return redirect('/dashboard');
 		}
 
-		return redirect('/login')->with('error', 'username atau Password salah');
+		return back()->withErrors([
+			'email' => 'Email atau password salah.',
+		]);
 	}
+
 
 
     public function logout(Request $request)
