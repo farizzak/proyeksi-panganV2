@@ -176,12 +176,12 @@
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
 
-            <div class="d-flex justify-content-between mb-3">
+            {{-- <div class="d-flex justify-content-between mb-3">
                 <div>
                     <input type="checkbox"> <small>Remember me</small>
                 </div>
                 <a href="#" class="link-custom">Forgot Password?</a>
-            </div>
+            </div> --}}
 
             <button class="btn btn-login w-100 mb-3">Sign In</button>
         </form>
