@@ -1095,6 +1095,9 @@ body{
 .grid-cols-12{
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
+.grid-cols-2{
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 .flex-col{
   flex-direction: column;
 }
@@ -1750,6 +1753,10 @@ body{
 .text-gray-900{
   --tw-text-opacity: 1;
   color: rgb(16 24 40 / var(--tw-text-opacity, 1));
+}
+.text-green-600{
+  --tw-text-opacity: 1;
+  color: rgb(22 163 74 / var(--tw-text-opacity, 1));
 }
 .text-green-700{
   --tw-text-opacity: 1;
@@ -2777,6 +2784,14 @@ body{
   --tw-bg-opacity: 1;
   background-color: rgb(26 34 49 / var(--tw-bg-opacity, 1));
 }
+.dark\:bg-green-800:is(.dark *){
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 101 52 / var(--tw-bg-opacity, 1));
+}
+.dark\:bg-red-800:is(.dark *){
+  --tw-bg-opacity: 1;
+  background-color: rgb(153 27 27 / var(--tw-bg-opacity, 1));
+}
 .dark\:bg-success-500\/15:is(.dark *){
   background-color: rgb(18 183 106 / 0.15);
 }
@@ -2845,9 +2860,17 @@ body{
   --tw-text-opacity: 1;
   color: rgb(152 162 179 / var(--tw-text-opacity, 1));
 }
+.dark\:text-green-200:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(187 247 208 / var(--tw-text-opacity, 1));
+}
 .dark\:text-orange-400:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(253 133 58 / var(--tw-text-opacity, 1));
+}
+.dark\:text-red-200:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(254 202 202 / var(--tw-text-opacity, 1));
 }
 .dark\:text-red-400:is(.dark *){
   --tw-text-opacity: 1;

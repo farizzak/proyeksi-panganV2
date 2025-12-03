@@ -27,7 +27,11 @@ class KomoditasController extends Controller
                 ->toJson();
         }
 
-        return view('komoditas.index');
+        $aktif = MKomoditas::where('status', 1)->count();
+        $nonAktif = MKomoditas::where('status', 0)->count();
+        $total = MKomoditas::count();
+
+        return view('komoditas.index', compact('aktif', 'nonAktif', 'total'));
     }
 
 

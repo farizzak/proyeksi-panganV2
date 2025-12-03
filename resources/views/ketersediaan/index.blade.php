@@ -132,7 +132,7 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tahun</label>
           <select id="filterYear"
                   class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-            <option value="">Semua Tahun</option>
+            <option value="">-- Pilih Tahun --</option>
             @foreach(range(date('Y')-5, date('Y')+1) as $y)
               <option value="{{ $y }}">{{ $y }}</option>
             @endforeach
@@ -144,7 +144,7 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Bulan</label>
           <select id="filterMonth"
                   class="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-            <option value="">Semua Bulan</option>
+            <option value="">-- Pilih Bulan --</option>
             @foreach(range(1,12) as $m)
               <option value="{{ $m }}">{{ DateTime::createFromFormat('!m', $m)->format('F') }}</option>
             @endforeach

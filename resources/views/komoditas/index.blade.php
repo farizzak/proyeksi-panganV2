@@ -118,6 +118,36 @@
       </a>
     </div>
 
+    <div class="w-full mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <!-- Card Aktif -->
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 
+                        rounded-2xl shadow-sm p-5 flex items-center gap-4">
+                <div class="p-3 bg-green-100 dark:bg-green-800 rounded-xl">
+                    <i class="fa-solid fa-check text-green-600 dark:text-green-200 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Komoditas Aktif</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">{{ $aktif }}</h3>
+                </div>
+            </div>
+
+            <!-- Card Non Aktif -->
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 
+                        rounded-2xl shadow-sm p-5 flex items-center gap-4">
+                <div class="p-3 bg-red-100 dark:bg-red-800 rounded-xl">
+                    <i class="fa-solid fa-ban text-red-600 dark:text-red-200 text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Komoditas Non Aktif</p>
+                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">{{ $nonAktif }}</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
     <!-- Grid Layout -->
     <div class="grid grid-cols-1 gap-6">
