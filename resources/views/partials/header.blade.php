@@ -69,8 +69,8 @@
       <!-- Hamburger Toggle BTN -->
 
       <a href="{{ url('/admin') }}" class="lg:hidden flex items-center space-x-2">
-        <img class="w-12 dark:hidden" src="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}" alt="Logo" />
-        <img class="hidden dark:block w-12" src="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}" alt="Logo" />
+        <img class="w-12 dark:hidden" src="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}" alt="Logo" />
+        <img class="hidden dark:block w-12" src="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}" alt="Logo" />
         <span class="text-xl font-semibold text-gray-800 dark:text-white">SIKETAN</span>
       </a>
 

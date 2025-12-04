@@ -7,17 +7,17 @@
     :class="sidebarToggle ? 'justify-center' : 'justify-start'"
     class="flex items-center gap-3 pt-8 pb-7 sidebar-header transition-all duration-300"
   >
-    <a href="{{ url('/admin') }}" class="flex items-center gap-3">
+    <a href="{{ url('/dashboard') }}" class="flex items-center gap-3">
       <!-- Logo -->
       <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
         <img
           class="dark:hidden w-12 h-auto"
-          src="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}"
+          src="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}"
           alt="Logo"
         />
         <img
           class="hidden dark:block w-12 h-auto"
-          src="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}"
+          src="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}"
           alt="Logo"
         />
       </span>
@@ -26,7 +26,7 @@
       <img
         class="logo-icon w-9 h-auto"
         :class="sidebarToggle ? 'lg:block' : 'hidden'"
-        src="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}"
+        src="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}"
         alt="Logo Icon"
       />
 
@@ -238,8 +238,22 @@
                     Proyeksi Ketersediaan
                   </a>
                 </li>
-                <li><a href="#" class="menu-dropdown-item group">Rekap Ketersediaan</a></li>
-                <li><a href="#" class="menu-dropdown-item group">Scrapping Data Siharpa</a></li>
+                <li>
+                  <a 
+                    href="{{ route('feature.placeholder') }}" 
+                    class="menu-dropdown-item group"
+                  >
+                    Rekap Ketersediaan
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="{{ route('feature.placeholder') }}" 
+                    class="menu-dropdown-item group"
+                  >
+                    Scrapping Data Siharpa
+                  </a>
+                </li>
               </ul>
             </div>
           </li>

@@ -27,7 +27,8 @@
 
         /* LEFT SECTION */
         .left-section {
-            background: linear-gradient(135deg, #FFAE70, #FF7E00);
+            /* background: linear-gradient(135deg, #FFAE70, #FF7E00); */
+            background: linear-gradient(135deg, #3C50E0, #80A6FF);
             color: white;
             display: flex;
             flex-direction: column;
@@ -85,13 +86,15 @@
         .btn-login {
             height: 48px;
             border-radius: 10px;
-            background: #FF8C2A;
+            /* background: #FF8C2A; */
+            background: #3C50E0;
             color: white;
             font-weight: 600;
         }
 
         .btn-login:hover {
-            background: #E97818;
+            /* background: #E97818; */
+            background: #273AC7;
         }
 
         .link-custom {
@@ -122,6 +125,28 @@
             .left-section { display: none; }
             body { background: #FFF6EE; }
             .right-section { justify-content: center; width: 100%; padding: 40px; }
+        }
+
+        @media (min-width: 1400px) {
+            .right-section form {
+                max-width: 460px !important; 
+            }
+        }
+
+        @media (min-width: 1700px) {
+            .right-section form {
+                max-width: 520px !important; 
+            }
+        }
+        
+        @media (max-width: 1280px) {
+            .right-section {
+                padding: 40px 50px !important;
+            }
+
+            .right-section form {
+                max-width: 340px !important;
+            }
         }
     </style>
 </head>

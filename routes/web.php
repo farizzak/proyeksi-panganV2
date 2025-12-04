@@ -51,4 +51,9 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(KetersediaanController::class)->group(function () {
         Route::resource('/ketersediaan', KetersediaanController::class);
     });
+
+    // Placeholder for menu items that are not ready yet
+    Route::get('/coming-soon', function () {
+        abort(404);
+    })->name('feature.placeholder');
 });
