@@ -18,9 +18,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
     <style>
+        html, body {
+            height: 100%;
+        }
+
         body {
             margin: 0;
-            height: 100vh;
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
         }
@@ -120,6 +123,23 @@
             vertical-align: middle;
             margin: 0 10px;
         }
+        .swal2-container {
+            z-index: 999999 !important;
+        }
+
+        .swal2-popup {
+            z-index: 999999 !important;
+        }
+
+        /* Prevent SweetAlert from shrinking the page height when the modal opens */
+        .swal2-shown {
+            overflow: hidden !important;
+        }
+        .swal2-height-auto {
+            height: 100% !important;
+        }
+
+
 
         @media(max-width: 992px) {
             .left-section { display: none; }
@@ -200,6 +220,24 @@
                 <span class="input-group-text"><i class="fa fa-lock"></i></span>
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
+            
+            <div class="d-flex align-items-center mb-3" style="gap:10px;">
+
+                <canvas id="captcha-canvas"
+                    width="140" height="50"
+                    class="rounded"
+                    style="background:#F5F7FD; border:1px solid #E5E7EB;">
+                </canvas>
+
+                <button type="button" id="reload-captcha"
+                    class="btn"
+                    style="background:#3C50E0; color:white; padding:10px 14px; border-radius:8px;">
+                    <i class="fa fa-rotate-right"></i>
+                </button>
+
+            </div>
+
+            <input type="text" id="captcha-input" name="captcha" class="form-control mb-3" placeholder="Masukkan kode captcha" style="border-radius:8px;" required>
 
             {{-- <div class="d-flex justify-content-between mb-3">
                 <div>
@@ -215,5 +253,92 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    let captchaCode = "";
+
+    function generateCaptcha() {
+        const canvas = document.getElementById("captcha-canvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        captchaCode = "";
+        for (let i = 0; i < 5; i++) {
+            captchaCode += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        ctx.fillStyle = "#f3f3f3";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < 5; i++) {
+            ctx.strokeStyle = "rgba(0,0,0,0.15)";
+            ctx.beginPath();
+            ctx.moveTo(Math.random() * 140, Math.random() * 50);
+            ctx.lineTo(Math.random() * 140, Math.random() * 50);
+            ctx.stroke();
+        }
+
+        ctx.font = "bold 26px Poppins";
+
+        for (let i = 0; i < captchaCode.length; i++) {
+            const x = 20 + i * 22 + Math.random() * 4;
+            const y = 30 + Math.random() * 4;
+            const angle = (Math.random() - 0.5) * 0.6;
+
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+
+            ctx.fillStyle = `rgb(${100 + Math.random()*100}, ${100 + Math.random()*100}, ${100 + Math.random()*100})`;
+
+            ctx.fillText(captchaCode[i], 0, 0);
+            ctx.restore();
+        }
+
+        for (let i = 0; i < 40; i++) {
+            ctx.fillStyle = "rgba(0,0,0,0.15)";
+            ctx.beginPath();
+            ctx.arc(Math.random() * 140, Math.random() * 50, 1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        return captchaCode;
+    }
+
+    document.getElementById("reload-captcha").onclick = generateCaptcha;
+    generateCaptcha();
+
+    document.querySelector("form").onsubmit = function(e) {
+        const input = document.getElementById("captcha-input").value.trim();
+
+        if (input !== captchaCode) {
+            e.preventDefault();
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Captcha Salah',
+                text: 'Silakan coba lagi.',
+                confirmButtonColor: '#3C50E0',
+                background: '#fff',
+                heightAuto: false,
+                backdrop: `
+                    rgba(0,0,0,0.45)
+                    center top
+                    no-repeat
+                `,
+            });
+
+            generateCaptcha();
+        }
+    };
+
+
+</script>
+
+
+
 </body>
 </html>
