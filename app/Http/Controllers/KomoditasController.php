@@ -133,9 +133,9 @@ class KomoditasController extends Controller
             'name' => 'required|string|max:255',
             'satuan' => 'nullable|string|max:50',
             'tipe_acuan' => 'required|string|in:HAP,HET',
-            'batas_aman' => 'nullable|integer',
-            'batas_waspada' => 'nullable|integer',
-            'batas_intervensi' => 'nullable|integer',
+            'batas_aman' => 'nullable|numeric',
+            'batas_waspada' => 'nullable|numeric',
+            'batas_intervensi' => 'nullable|numeric',
             'url_gambar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 

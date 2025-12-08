@@ -238,10 +238,10 @@
                     Proyeksi Ketersediaan
                   </a>
                 </li>
-                <li>
+                </li>
                   <a 
-                    href="{{ route('feature.placeholder') }}" 
-                    class="menu-dropdown-item group"
+                    href="{{ route('rekap.index') }}" 
+                    class="menu-dropdown-item group {{ request()->is('rekap*') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
                   >
                     Rekap Ketersediaan
                   </a>

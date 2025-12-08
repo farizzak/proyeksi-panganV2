@@ -5,6 +5,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KomoditasController;
 use App\Http\Controllers\KetersediaanController;
+use App\Http\Controllers\RekapKetersediaan;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 
@@ -48,8 +49,15 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/komoditas', KomoditasController::class);
     });
 
+
+    // Transaksi Data
+
     Route::controller(KetersediaanController::class)->group(function () {
         Route::resource('/ketersediaan', KetersediaanController::class);
+    });
+
+    Route::controller(RekapKetersediaan::class)->group(function () {
+        Route::resource('/rekap', RekapKetersediaan::class);
     });
 
     // Placeholder for menu items that are not ready yet

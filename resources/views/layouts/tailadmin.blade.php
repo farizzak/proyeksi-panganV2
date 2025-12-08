@@ -37,7 +37,7 @@
         @include('partials.header')
 
         <main>
-          <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+          <div class="p-4 mx-auto max-w-7xl md:p-6">
             @if(session('success'))
               <div x-data="{ show: true }"
                    x-show="show"
