@@ -6,6 +6,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KomoditasController;
 use App\Http\Controllers\KetersediaanController;
 use App\Http\Controllers\RekapKetersediaan;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 
@@ -27,9 +28,7 @@ Route::controller(LoginController::class)->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::controller(RoleController::class)->group(function () {
         Route::resource('roles', RoleController::class);
