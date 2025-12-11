@@ -410,7 +410,7 @@
             <a href="komoditas.blade.php">Komoditas</a>
             <a href="pantauan-harga.blade.php">Pantauan Harga</a>
             <a href="peta.blade.php">Peta</a>
-            <a class="btn-login" href="#">Login</a>
+            <a class="btn-login" href="{{ route('login') }}">Login</a>
         </nav>
     </header>
 
