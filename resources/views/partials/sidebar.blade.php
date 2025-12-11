@@ -249,8 +249,8 @@
                 </li>
                 <li>
                   <a 
-                    href="{{ route('feature.placeholder') }}" 
-                    class="menu-dropdown-item group"
+                    href="{{ route('bahanpokok.index') }}" 
+                    class="menu-dropdown-item group {{ request()->is('bahanpokok*') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}"
                   >
                     Scrapping Data Siharpa
                   </a>
