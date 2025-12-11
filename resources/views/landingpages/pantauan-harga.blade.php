@@ -77,7 +77,7 @@
         /* HERO */
         .hero {
             min-height: 300px;
-            background-image: url('/d/laragon/www/proyeksi-panganv2/public/images/landingpages/gambarkota.png');
+            background-image: url('{{ asset('tailadmin/images/landingpages/gambarkota.png') }}');
             background-size: cover;
             background-position: center;
             position: relative;
@@ -175,16 +175,16 @@
 
 <header class="nav">
     <div class="brand">
-        <div class="logo"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/logopemkot.png"></div>
+        <div class="logo"><img src="{{ asset('tailadmin/images/landingpages/logopemkot.png') }}"></div>
         <div>SIKETAN</div>
     </div>
     <nav class="menu">
-        <a href="index.html">Beranda</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="komoditas.html">Komoditas</a>
-        <a href="pantauan-harga.html">Pantauan Harga</a>
-        <a href="peta.html">Peta</a>
-        <a class="btn-login" href="#">Login</a>
+        <a href="index.blade.php">Beranda</a>
+            <a href="dashboard.blade.php">Dashboard</a>
+            <a href="komoditas.blade.php">Komoditas</a>
+            <a href="pantauan-harga.blade.php">Pantauan Harga</a>
+            <a href="peta.blade.php">Peta</a>
+            <a class="btn-login" href="#">Login</a>
     </nav>
 </header>
 
@@ -207,7 +207,7 @@
     <div class="footer-container">
         <div class="footer-col">
             <div class="footer-logo">
-                <img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/logopemkot.png" width="28">
+                <img src="{{ asset('tailadmin/images/landingpages/logopemkot.png') }}" width="28">
                 <span>SIKETAN</span>
             </div>
             <div class="footer-desc">

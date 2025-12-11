@@ -16,7 +16,22 @@ use App\Http\Controllers\LoginController;
 |--------------------------------------------------------------------------
 */
 
-Route::redirect('/', '/login');
+Route::get('/', function () {
+    return view('landingpages.index');
+})->name('landing.index');
+
+Route::get('/komoditas', function () {
+    return view('landingpages.komoditas');
+})->name('landing.komoditas');
+
+Route::get('/peta', function () {
+    return view('landingpages.peta');
+})->name('landing.peta');
+
+Route::get('/pantauan-harga', function () {
+    return view('landingpages.pantauan-harga');
+})->name('landing.pantauan');
+
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'viewLogin')->name('login');
