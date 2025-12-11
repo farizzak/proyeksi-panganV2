@@ -86,7 +86,7 @@
         .hero {
             position: relative;
             min-height: 520px;
-            background-image: url('/images/gambarkota.png');
+            background-image: url('/d/laragon/www/proyeksi-panganv2/public/images/landingpages/gambarkota.png');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -401,7 +401,7 @@
     <!-- NAV -->
     <header class="nav">
         <div class="brand">
-            <div class="logo"><img src="/images/logopemkot.png"></div>
+            <div class="logo"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/logopemkot.png"></div>
             <div>SIKETAN</div>
         </div>
         <nav class="menu">
@@ -431,22 +431,22 @@
     <!-- STATS -->
     <div class="stats">
         <div class="stat">
-            <div class="icon"><img src="/images/komoditas.png"></div>
+            <div class="icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/komoditas.png"></div>
             <h4>50+</h4>
             <p>Komoditas Pangan</p>
         </div>
         <div class="stat">
-            <div class="icon"><img src="/images/kecamatan.png"></div>
+            <div class="icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/kecamatan.png"></div>
             <h4>16</h4>
             <p>Kecamatan</p>
         </div>
         <div class="stat">
-            <div class="icon"><img src="/images/kelurahan.png"></div>
+            <div class="icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/kelurahan.png"></div>
             <h4>177</h4>
             <p>Kelurahan</p>
         </div>
         <div class="stat">
-            <div class="icon"><img src="/images/monitoring.png"></div>
+            <div class="icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/monitoring.png"></div>
             <h4>24/7</h4>
             <p>Monitoring</p>
         </div>
@@ -462,7 +462,7 @@
             <div class="services">
 
                 <div class="service s-1">
-                    <div class="s-icon"><img src="/images/monitoringharga.png"></div>
+                    <div class="s-icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/monitoringharga.png"></div>
                     <div class="s-body">
                         <h3>Monitoring Harga</h3>
                         <p>Pantau pergerakan harga pangan secara real-time dengan data terupdate.</p>
@@ -470,7 +470,7 @@
                 </div>
 
                 <div class="service s-2">
-                    <div class="s-icon"><img src="/images/stokpangan.png"></div>
+                    <div class="s-icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/stokpangan.png"></div>
                     <div class="s-body">
                         <h3>Stok Pangan</h3>
                         <p>Informasi ketersediaan stok pangan Kota Semarang yang akurat dan terpercaya.</p>
@@ -478,7 +478,7 @@
                 </div>
 
                 <div class="service s-3">
-                    <div class="s-icon"><img src="/images/petadistribusi.png"></div>
+                    <div class="s-icon"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/petadistribusi.png"></div>
                     <div class="s-body">
                         <h3>Peta Distribusi</h3>
                         <p>Visualisasi distribusi pangan secara geografis di Semarang.</p>
@@ -498,7 +498,7 @@
 
             <div class="footer-col">
                 <div class="footer-logo">
-                    <img src="/images/logopemkot.png" width="28">
+                    <img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/logopemkot.png" width="28">
                     <span>SIKETAN</span>
                 </div>
                 <div class="footer-desc">

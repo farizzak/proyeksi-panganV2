@@ -77,7 +77,7 @@
         /* HERO */
         .hero {
             min-height: 300px;
-            background-image: url('/images/gambarkota.png');
+            background-image: url('/d/laragon/www/proyeksi-panganv2/public/images/landingpages/gambarkota.png');
             background-size: cover;
             background-position: center;
             position: relative;
@@ -175,7 +175,7 @@
 
 <header class="nav">
     <div class="brand">
-        <div class="logo"><img src="/images/logopemkot.png"></div>
+        <div class="logo"><img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/logopemkot.png"></div>
         <div>SIKETAN</div>
     </div>
     <nav class="menu">
@@ -207,7 +207,7 @@
     <div class="footer-container">
         <div class="footer-col">
             <div class="footer-logo">
-                <img src="/images/logopemkot.png" width="28">
+                <img src="/d/laragon/www/proyeksi-panganv2/public/images/landingpages/logopemkot.png" width="28">
                 <span>SIKETAN</span>
             </div>
             <div class="footer-desc">
