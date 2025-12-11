@@ -43,7 +43,7 @@
 
   <!-- SIDEBAR MENU -->
   <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-    <nav x-data="{ selected: $persist('Dashboard') }">
+    <nav x-data="{ selected: 'Dashboard' }">
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
           <span class="menu-group-title" :class="sidebarToggle ? 'lg:hidden' : ''">

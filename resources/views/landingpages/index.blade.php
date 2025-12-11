@@ -86,7 +86,7 @@
         .hero {
             position: relative;
             min-height: 520px;
-            background-image: url('{{ asset('tailadmin/images/landingpages/gambarkota.png') }}');
+            background-image: url("{{ asset('tailadmin/images/landingpages/gambarkota.png') }}");
             background-size: cover;
             background-position: center;
             display: flex;
@@ -405,8 +405,8 @@
             <div>SIKETAN</div>
         </div>
         <nav class="menu">
-            <a href="index.blade.php">Beranda</a>
-            <a href="dashboard.blade.php">Dashboard</a>
+            <a href="{{ route('home') }}">Beranda</a>
+            <a href="{{ route('landing.dashboard')}}">Dashboard</a>
             <a href="komoditas.blade.php">Komoditas</a>
             <a href="pantauan-harga.blade.php">Pantauan Harga</a>
             <a href="peta.blade.php">Peta</a>

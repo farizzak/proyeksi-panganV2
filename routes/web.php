@@ -9,6 +9,7 @@ use App\Http\Controllers\RekapKetersediaan;
 use App\Http\Controllers\ScrapingSiharpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,12 @@ use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('landingpages.index');
-})->name('landing.index');
+})->name('home');
 
-Route::get('/komoditas', function () {
-    return view('landingpages.komoditas');
-})->name('landing.komoditas');
+Route::prefix('landing')->controller(LandingPageController::class)->group(function () {
+    Route::get('/dashboard', 'dashboardPage')->name('landing.dashboard');
+    Route::get('/komoditas', 'komoditasPage')->name('landing.komoditas');
+});
 
 Route::get('/peta', function () {
     return view('landingpages.peta');
