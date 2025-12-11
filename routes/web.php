@@ -7,6 +7,7 @@ use App\Http\Controllers\KomoditasController;
 use App\Http\Controllers\KetersediaanController;
 use App\Http\Controllers\RekapKetersediaan;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ScrapingSiharpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 
@@ -58,6 +59,15 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(RekapKetersediaan::class)->group(function () {
         Route::resource('/rekap', RekapKetersediaan::class);
     });
+
+    Route::controller(ScrapingSiharpaController::class)->group(function () {
+        Route::get('/bahanpokok', [ScrapingSiharpaController::class, 'index'])->name('bahanpokok.index');
+        Route::post('/bahanpokok/scrape', [ScrapingSiharpaController::class, 'scrapeData'])->name('bahanpokok.scrape');
+        Route::post('/bahanpokok/store-from-table', [ScrapingSiharpaController::class, 'storeDataFromTable'])->name('bahanpokok.storeDataFromTable');
+        Route::post('/bahanpokok/scrape-ajax', [ScrapingSiharpaController::class, 'scrapeAjax'])->name('bahanpokok.scrapeAjax');
+    });
+
+    
 
     // Placeholder for menu items that are not ready yet
     Route::get('/coming-soon', function () {
