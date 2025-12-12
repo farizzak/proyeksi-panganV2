@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Dashboard - SIKETAN</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
@@ -64,7 +66,7 @@
         }
         .btn-login {
             background: var(--orange);
-            color: #fff;
+            color: #fff !important;
             padding: 10px 16px;
             border-radius: 22px;
             text-decoration: none;
@@ -165,12 +167,12 @@
             <div>SIKETAN</div>
         </div>
         <nav class="menu">
-            <a href="index.blade.php">Beranda</a>
-            <a href="dashboard.blade.php">Dashboard</a>
-            <a href="komoditas.blade.php">Komoditas</a>
+            <a href="{{ route('home') }}">Beranda</a>
+            <a href="{{ route('landing.dashboard')}}">Dashboard</a>
+            <a href="{{ route('landing.komoditas')}}">Komoditas</a>
             <a href="pantauan-harga.blade.php">Pantauan Harga</a>
             <a href="peta.blade.php">Peta</a>
-            <a class="btn-login" href="#">Login</a>
+            <a class="btn-login" href="{{ route('login') }}">Login</a>
         </nav>
     </header>
 
@@ -182,10 +184,68 @@
         </div>
     </section>
 
-    <!-- CONTENT EMPTY -->
-    <div class="dashboard-content">
-        <h2>Konten Data Komoditas Masih Kosong</h2>
-        <p>Silakan tambahkan grafik, tabel, statistik, atau modul lainnya di sini.</p>
+    <!-- CONTENT -->
+    <div class="dashboard-content bg-slate-50">
+        <main class="max-w-6xl mx-auto px-4 md:px-6 py-16 space-y-8">
+
+            <!-- FILTER SECTION -->
+            <div class="rounded-2xl bg-white shadow-md border border-gray-100 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">Pilih periode data</h3>
+                    </div>
+                    <a href="{{ route('landing.komoditas') }}" class="text-sm text-orange-500 hover:text-orange-600">Reset</a>
+                </div>
+
+                <form action="{{ route('landing.komoditas') }}" method="GET"
+                    class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                    <!-- BULAN -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2 text-sm">Bulan</label>
+                        <select id="bulan" name="bulan"
+                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                            @foreach(range(1, 12) as $month)
+                                <option value="{{ $month }}"
+                                    {{ $month == request('bulan', date('n')) ? 'selected' : '' }}>
+                                    {{ DateTime::createFromFormat('!m', $month)->format('F') }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- TAHUN -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2 text-sm">Tahun</label>
+                        <select id="tahun" name="tahun"
+                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                            @foreach(range(date('Y') - 5, date('Y')) as $year)
+                                <option value="{{ $year }}"
+                                    {{ $year == request('tahun', date('Y')) ? 'selected' : '' }}>
+                                    {{ $year }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- BUTTON -->
+                    <div class="flex items-end">
+                        <button type="submit"
+                            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl shadow-sm transition">
+                            Tampilkan Data
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- CHART GRID -->
+            <div id="chart-container"
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- AJAX akan render chart card di sini -->
+            </div>
+
+        </main>
     </div>
 
     <!-- FOOTER -->
@@ -232,6 +292,109 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tahun = @json(request('tahun', date('Y')));
+            const bulan = @json(request('bulan', date('n')));
+            const container = document.getElementById('chart-container');
+            const url = "{{ route('getLandingKomoditas') }}";
+
+            try {
+                const params = new URLSearchParams({ tahun, bulan });
+                const res = await fetch(`${url}?${params.toString()}`);
+                if (!res.ok) throw new Error('Gagal memuat data');
+                const response = await res.json();
+
+                container.innerHTML = '';
+
+                response.forEach((item, i) => {
+                    const chartId = `chart-${i}`;
+
+                    const card = document.createElement('div');
+                    card.className = 'bg-white shadow-md border border-gray-100 rounded-2xl p-5 flex flex-col gap-3';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <h5 class="font-semibold text-gray-900">${item.komoditas}</h5>
+                            <span class="text-xs px-3 py-1 rounded-full bg-orange-50 text-orange-600 font-semibold">${tahun}</span>
+                        </div>
+                        <div class="h-36">
+                            <canvas id="${chartId}" class="w-full h-full"></canvas>
+                        </div>
+                        <div class="text-sm space-y-1.5 text-gray-700">
+                            <p class="flex justify-between"><span class="text-gray-500">Bulan</span><span class="font-semibold text-gray-900">${item.summary.bulan}</span></p>
+                            <p class="flex justify-between"><span class="text-gray-500">Total Stok</span><span class="font-semibold">${new Intl.NumberFormat('id-ID').format(item.summary.jumlah_stok_total)}</span></p>
+                            <p class="flex justify-between"><span class="text-gray-500">Total Kebutuhan</span><span class="font-semibold">${new Intl.NumberFormat('id-ID').format(item.summary.total_kebutuhan)}</span></p>
+                            <p class="flex justify-between"><span class="text-gray-500">Neraca</span>
+                                <span class="font-semibold ${item.summary.neraca >= 0 ? 'text-emerald-600' : 'text-red-600'}">
+                                    ${item.summary.neraca >= 0 ? '+' : ''}${new Intl.NumberFormat('id-ID').format(item.summary.neraca)}
+                                </span>
+                            </p>
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+
+                    const ctx = document.getElementById(chartId).getContext('2d');
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 150);
+                    gradient.addColorStop(0, 'rgba(249, 115, 22, 0.35)');
+                    gradient.addColorStop(1, 'rgba(249, 115, 22, 0.05)');
+
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: item.labels,
+                            datasets: [{
+                                label: 'Neraca',
+                                data: item.data,
+                                borderColor: 'rgb(249, 115, 22)',
+                                backgroundColor: gradient,
+                                tension: 0.35,
+                                fill: true,
+                                borderWidth: 3,
+                                pointRadius: 3,
+                                pointBackgroundColor: '#fff',
+                                pointBorderColor: 'rgb(249, 115, 22)',
+                                pointBorderWidth: 2,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#0f172a',
+                                    titleColor: '#fff',
+                                    bodyColor: '#e2e8f0',
+                                    callbacks: {
+                                        label: (context) => {
+                                            const value = context.parsed.y ?? 0;
+                                            return ` ${value.toLocaleString('id-ID', { minimumFractionDigits: 2 })}`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(148,163,184,0.2)' },
+                                    ticks: { color: '#475569', callback: (v) => v.toLocaleString('id-ID') }
+                                },
+                                x: {
+                                    grid: { display: false },
+                                    ticks: { color: '#475569' }
+                                }
+                            }
+                        }
+                    });
+                });
+            } catch (err) {
+                container.innerHTML = `<div class="col-span-full text-center text-red-600 text-sm">${err.message}</div>`;
+            }
+        });
+    </script>
+
 
 </body>
 

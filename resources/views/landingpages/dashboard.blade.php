@@ -220,7 +220,7 @@
         <nav class="menu">
             <a href="{{ route('home') }}">Beranda</a>
             <a href="{{ route('landing.dashboard')}}">Dashboard</a>
-            <a href="komoditas.blade.php">Komoditas</a>
+            <a href="{{ route('landing.komoditas')}}">Komoditas</a>
             <a href="pantauan-harga.blade.php">Pantauan Harga</a>
             <a href="peta.blade.php">Peta</a>
             <a class="btn-login" href="{{ route('login') }}">Login</a>

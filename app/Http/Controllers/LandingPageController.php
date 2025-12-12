@@ -10,6 +10,27 @@ use App\Models\DistributionData;
 
 class LandingPageController extends Controller
 {
+
+    function getNamaBulan($bulan)
+    {
+        $namaBulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        ];
+
+        return $namaBulan[$bulan] ?? 'Tidak Diketahui';
+    }
+
     public function dashboardPage(Request $request){
 
         $bulan = $request->get('bulan', date('n')); 
@@ -51,7 +72,7 @@ class LandingPageController extends Controller
         
     }
 
-    public function getKomoditas(Request $request){
+    public function komoditasPage(Request $request){
 
         $bulan = $request->get('bulan', date('n')); 
         $tahun = $request->get('tahun', date('Y')); 
@@ -61,14 +82,64 @@ class LandingPageController extends Controller
         $endOfMonth = Carbon::create($tahun, $bulan, 1)->endOfMonth()->format('Y-m-d');
 
         $selectedData = TKetersediaanDetail::where('tanggal', '>=', $startOfMonth)
-              ->where('tanggal', '<=', $endOfMonth)
-              ->get(); 
+            ->where('tanggal', '<=', $endOfMonth)
+            ->get(); 
   
         if (!$selectedData) {
             $selectedData = collect([]);
         }
 
-        return view('komoditas', compact('selectedData','namaBulan','tahun'));
+        return view('landingpages.komoditas', compact('selectedData','namaBulan','tahun'));
+    }
+
+    public function getLandingKomoditas(Request $request){
+
+        $bulan = $request->get('bulan', date('n')); 
+        $tahun = $request->get('tahun', date('Y')); 
+    
+        $allKomoditas = MKomoditas::where('status', 1)->get();
+    
+        $response = [];
+    
+        foreach ($allKomoditas as $komoditas) {
+            $selectedDataPerKomoditas = TKetersediaanDetail::selectRaw('MONTH(tanggal) as bulan, SUM(neraca) as neraca')
+                ->whereYear('tanggal', $tahun)
+                ->where('komoditas_id', $komoditas->id) 
+                ->groupByRaw('MONTH(tanggal)')
+                ->orderByRaw('MONTH(tanggal)')
+                ->get();
+
+            
+            $latestMonth = TKetersediaanDetail::whereYear('tanggal', $tahun)
+            ->where('komoditas_id', $komoditas->id)
+            ->orderBy('tanggal', 'desc')
+            ->first();
+    
+            $stokBulan = [];
+            $totalNeraca = [];
+    
+            foreach ($selectedDataPerKomoditas as $data) {
+                $stokBulan[] = Carbon::create()->month($data->bulan)->locale('id')->translatedFormat('F'); 
+                $totalNeraca[] = $data->neraca;
+            }
+    
+
+            $response[] = [
+                'komoditas' => $komoditas->name,
+                'labels' => $stokBulan,
+                'data' => $totalNeraca,
+                'tahun' => $tahun,
+                'summary' => [
+                    'jumlah_stok_total' => $latestMonth->jumlah_stok_total ?? 0,
+                    'total_kebutuhan' => $latestMonth->total_kebutuhan ?? 0,
+                    'neraca' => $latestMonth->neraca ?? 0,
+                    'bulan' => $latestMonth ? Carbon::parse($latestMonth->tanggal)->translatedFormat('F') : 'Tidak Ada Data',
+                ]
+            ];
+        }
+    
+        return response()->json($response);
+
     }
 
     public function getDataStokByMonthAndYear(Request $request)
@@ -113,23 +184,4 @@ class LandingPageController extends Controller
 
     }
 
-    function getNamaBulan($bulan)
-    {
-        $namaBulan = [
-            1 => 'Januari',
-            2 => 'Februari',
-            3 => 'Maret',
-            4 => 'April',
-            5 => 'Mei',
-            6 => 'Juni',
-            7 => 'Juli',
-            8 => 'Agustus',
-            9 => 'September',
-            10 => 'Oktober',
-            11 => 'November',
-            12 => 'Desember',
-        ];
-
-        return $namaBulan[$bulan] ?? 'Tidak Diketahui';
-    }
 }

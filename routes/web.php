@@ -23,7 +23,10 @@ Route::get('/', function () {
 
 Route::prefix('landing')->controller(LandingPageController::class)->group(function () {
     Route::get('/dashboard', 'dashboardPage')->name('landing.dashboard');
+
     Route::get('/komoditas', 'komoditasPage')->name('landing.komoditas');
+    Route::get('/getLanding-Komoditas', 'getLandingKomoditas')->name('getLandingKomoditas');
+
 });
 
 Route::get('/peta', function () {
