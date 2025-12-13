@@ -184,7 +184,7 @@
         <a href="{{ route('landing.dashboard')}}">Dashboard</a>
         <a href="{{ route('landing.komoditas')}}">Komoditas</a>
         <a href="{{ route('landing.pantauan-harga')}}">Pantauan Harga</a>
-        <a href="peta.blade.php">Peta</a>
+        <a href="{{ route('landing.peta')}}">Peta</a>
         <a class="btn-login" href="{{ route('login') }}">Login</a>
     </nav>
 </header>

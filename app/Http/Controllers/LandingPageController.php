@@ -6,7 +6,8 @@ use App\Models\MKomoditas;
 use App\Models\TKetersediaanDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\DistributionData;
+use App\Models\TDistribution;
+use Illuminate\Support\Facades\DB;
 
 class LandingPageController extends Controller
 {
@@ -158,27 +159,7 @@ class LandingPageController extends Controller
         return view('landingpages.pantauan-harga', compact('komoditas','tanggalFormatted'));
     }
 
-    public function getDataStokByMonthAndYear(Request $request)
-    {
-        $bulan = $request->input('bulan'); 
-        $tahun = $request->input('tahun'); 
-
-        $bulan = $bulan ?: now()->month;
-        $tahun = $tahun ?: now()->year;
-
-        $startOfMonth = Carbon::create($tahun, $bulan, 1)->startOfMonth();
-        $endOfMonth = Carbon::create($tahun, $bulan, 1)->endOfMonth();
-
-        $data = TKetersediaanDetail::whereBetween('tanggal', [$startOfMonth, $endOfMonth])
-            ->selectRaw('MONTH(tanggal) as month, YEAR(tanggal) as year, SUM(jumlah_stok_total) as total_stock')
-            ->groupBy('month', 'year')
-            ->orderBy('tanggal', 'asc')
-            ->get();
-
-        return response()->json($data);
-    }
-
-    public function getPeta(Request $request)
+    public function petaPage(Request $request)
     {
         $bulan = $request->input('bulan'); 
         $tahun = $request->input('tahun'); 
@@ -191,13 +172,51 @@ class LandingPageController extends Controller
 
         $startOfMonth = Carbon::create($tahun, $bulan, 1)->startOfMonth();
         $endOfMonth = Carbon::create($tahun, $bulan, 1)->endOfMonth();
-        $data = DistributionData::where('year','=', $tahun)
+        $data = TDistribution::where('year','=', $tahun)
             ->where('bulan','=',$bulan)
             ->first();
 
-        $komoditasDropdown = MKomoditas::where('status', 1)->get();
-        return view('peta', compact('komoditasDropdown','namaBulan','data'));
+        $komoditasDropdown = DB::table('t_distributions')
+            ->select('kecamatan')->distinct()
+            ->where('bulan', 11)
+            ->where('year', 2024)
+            ->get();
 
+        return view('landingpages.peta', compact('komoditasDropdown','namaBulan','data'));
+
+    }
+
+    public function getLandingPeta(Request $request)
+    {
+       
+        $tahun = $request->get('tahun', date('Y')); 
+        $bulan = $request->get('bulan', date('n'));
+    
+        $data = DB::table('t_distributions')
+            ->select('kecamatan', 'komoditas', DB::raw('SUM(stock) as total_stok')) 
+            ->where('year', $tahun)
+            ->where('bulan', $bulan)
+            ->groupBy('kecamatan', 'komoditas') 
+            ->orderBy('kecamatan')
+            ->get();
+        
+        $result = [];
+        foreach ($data as $row) {
+            $kecamatanKey = strtolower(str_replace(' ', '', $row->kecamatan));
+            if (!isset($result[$kecamatanKey])) {
+                $result[$kecamatanKey] = [
+                    'nama' => $row->kecamatan,
+                    'komoditas' => [],
+                ];
+            }
+    
+            $result[$kecamatanKey]['komoditas'][] = [
+                'nama' => $row->komoditas,
+                'stok' => "{$row->total_stok} kg",
+            ];
+        }
+    
+        return response()->json($result);
     }
 
 }
