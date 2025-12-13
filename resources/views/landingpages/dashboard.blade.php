@@ -63,13 +63,46 @@
         .nav .menu {
             display: flex;
             gap: 20px;
-            align-items: center;
+            align-items: center
         }
 
         .nav .menu a {
-            color: var(--deep);
+            position: relative;
+            color: #000;
             text-decoration: none;
-            font-weight: 500;
+            transition: 
+                color .25s ease,
+                transform .25s ease;
+        }
+
+        .nav .menu a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width .3s ease;
+        }
+
+        .nav .menu a:hover {
+            color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* Underline muncul */
+        .nav .menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Login TIDAK ikut underline */
+        .nav .menu .btn-login::after {
+            display: none;
+        }
+
+        .nav .menu .btn-login:hover {
+            transform: translateY(-2px);
         }
 
         .btn-login {
@@ -78,7 +111,7 @@
             padding: 10px 16px;
             border-radius: 22px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 600
         }
 
         /* HERO DASHBOARD */

@@ -28,7 +28,7 @@
         /* ============================
                NAVBAR
         ============================= */
-        .nav {
+         .nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -66,9 +66,42 @@
         }
 
         .nav .menu a {
-            color: var(--deep);
+            position: relative;
+            color: #000;
             text-decoration: none;
-            font-weight: 500
+            transition: 
+                color .25s ease,
+                transform .25s ease;
+        }
+
+        .nav .menu a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width .3s ease;
+        }
+
+        .nav .menu a:hover {
+            color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+        /* Underline muncul */
+        .nav .menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Login TIDAK ikut underline */
+        .nav .menu .btn-login::after {
+            display: none;
+        }
+
+        .nav .menu .btn-login:hover {
+            transform: translateY(-2px);
         }
 
         .btn-login {
@@ -80,13 +113,14 @@
             font-weight: 600
         }
 
+
         /* ============================
                HERO SECTION
         ============================= */
         .hero {
             position: relative;
             min-height: 520px;
-            background-image: url("{{ asset('tailadmin/images/landingpages/gambarkota.png') }}");
+            background-image: url('{{ asset('tailadmin/images/landingpages/gambarkota.png') }}');
             background-size: cover;
             background-position: center;
             display: flex;
