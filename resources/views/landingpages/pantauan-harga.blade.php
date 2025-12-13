@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Pantauan Harga - SIKETAN</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
         :root {
@@ -67,7 +68,7 @@
 
         .btn-login {
             background: var(--orange);
-            color: #fff;
+            color: #fff !important;
             padding: 10px 16px;
             border-radius: 22px;
             text-decoration: none;
@@ -179,12 +180,12 @@
         <div>SIKETAN</div>
     </div>
     <nav class="menu">
-        <a href="index.blade.php">Beranda</a>
-            <a href="dashboard.blade.php">Dashboard</a>
-            <a href="komoditas.blade.php">Komoditas</a>
-            <a href="pantauan-harga.blade.php">Pantauan Harga</a>
-            <a href="peta.blade.php">Peta</a>
-            <a class="btn-login" href="#">Login</a>
+        <a href="{{ route('home') }}">Beranda</a>
+        <a href="{{ route('landing.dashboard')}}">Dashboard</a>
+        <a href="{{ route('landing.komoditas')}}">Komoditas</a>
+        <a href="{{ route('landing.pantauan-harga')}}">Pantauan Harga</a>
+        <a href="peta.blade.php">Peta</a>
+        <a class="btn-login" href="{{ route('login') }}">Login</a>
     </nav>
 </header>
 
@@ -195,13 +196,97 @@
     </div>
 </section>
 
-<div class="content">
-    <div class="table-title">Daftar Harga Komoditas</div>
+<div>
+    <main class="max-w-6xl mx-auto px-6 py-16 space-y-10">
 
-    <div class="empty-box">
-        Konten akan ditampilkan di sini
-    </div>
-</div>
+        <h1 class="text-3xl font-semibold text-gray-800">
+            Pantauan Harga
+        </h1>
+
+        <section class="bg-white shadow-md rounded-xl overflow-hidden">
+            <div class="px-6 py-4 border-b">
+                <h2 class="text-lg font-medium text-gray-700">
+                    Dashboard Harga Pasar
+                </h2>
+            </div>
+
+            <div class="w-full h-[70vh]">
+                <iframe
+                    src="https://siharpa.semarangkota.go.id/dashboard-harga-pasar"
+                    class="w-full h-full"
+                    frameborder="0"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-md rounded-xl p-6">
+            <h3 class="text-lg font-medium text-gray-700 mb-4">
+                Komoditas – Terakhir Ambil Data Tanggal
+                <span class="font-semibold">
+                    {{ $tanggalFormatted }}
+                </span>
+            </h3>
+
+            <div class="overflow-x-auto">
+                <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr class="text-left text-sm text-gray-600">
+                            <th class="px-4 py-3">No</th>
+                            <th class="px-4 py-3">Komoditas</th>
+                            <th class="px-4 py-3">Harga Awal</th>
+                            <th class="px-4 py-3">Harga Akhir</th>
+                            <th class="px-4 py-3">Persentase</th>
+                            <th class="px-4 py-3">Keterangan</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-200 text-sm">
+                        @forelse ($komoditas as $key => $item)
+                            @php
+                                $bahan = optional($item->bahanPokokTerbaru);
+                                $status = $bahan->keterangan;
+                            @endphp
+
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-4 py-3">{{ $key + 1 }}</td>
+                                <td class="px-4 py-3 font-medium text-gray-800">
+                                    {{ $bahan->bahan_pokok ?? '-' }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ number_format($bahan->harga_tanggal_1 ?? 0, 2, ',', '.') }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ number_format($bahan->harga_tanggal_2 ?? 0, 2, ',', '.') }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    {{ number_format($bahan->persentase ?? 0, 2, ',', '.') }} %
+                                </td>
+                                <td class="px-4 py-3 font-medium">
+                                    @if ($status === 'Naik')
+                                        <span class="text-green-600">▲ Naik</span>
+                                    @elseif ($status === 'Turun')
+                                        <span class="text-red-600">▼ Turun</span>
+                                    @elseif ($status === 'Tetap')
+                                        <span class="text-gray-500">▬ Tetap</span>
+                                    @else
+                                        <span class="text-gray-400 italic">Belum ada data</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-4 py-6 text-center text-gray-500 italic">
+                                    Data belum tersedia
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>  
 
 <footer>
     <div class="footer-container">

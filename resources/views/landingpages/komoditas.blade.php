@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Dashboard - SIKETAN</title>
+    <title>Komoditas - SIKETAN</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -170,7 +170,7 @@
             <a href="{{ route('home') }}">Beranda</a>
             <a href="{{ route('landing.dashboard')}}">Dashboard</a>
             <a href="{{ route('landing.komoditas')}}">Komoditas</a>
-            <a href="pantauan-harga.blade.php">Pantauan Harga</a>
+            <a href="{{ route('landing.pantauan-harga')}}">Pantauan Harga</a>
             <a href="peta.blade.php">Peta</a>
             <a class="btn-login" href="{{ route('login') }}">Login</a>
         </nav>

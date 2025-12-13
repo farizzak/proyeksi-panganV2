@@ -24,4 +24,10 @@ class MKomoditas extends Model
     public function scopeActive($query) {
         return $query->where('status', 1);
     }
+
+    public function bahanPokokTerbaru()
+    {
+        //data yang diambil selalu terbaru
+        return $this->hasOne(MBahanPokok::class, 'bahan_pokok', 'name')->latestOfMany('created_at');
+    }
 }

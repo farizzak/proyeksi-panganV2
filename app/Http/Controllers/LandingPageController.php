@@ -30,7 +30,7 @@ class LandingPageController extends Controller
 
         return $namaBulan[$bulan] ?? 'Tidak Diketahui';
     }
-
+    // Landing Dashboard
     public function dashboardPage(Request $request){
 
         $bulan = $request->get('bulan', date('n')); 
@@ -72,6 +72,7 @@ class LandingPageController extends Controller
         
     }
 
+    // Landing Komoditas
     public function komoditasPage(Request $request){
 
         $bulan = $request->get('bulan', date('n')); 
@@ -140,6 +141,21 @@ class LandingPageController extends Controller
     
         return response()->json($response);
 
+    }
+
+    // Landing PantauanHarga
+    public function pantauanHargaPage(Request $request){
+
+        $komoditas = MKomoditas::with('bahanPokokTerbaru')->active()->get();
+        $tanggal = $komoditas
+            ->pluck('bahanPokokTerbaru')
+            ->filter()
+            ->pluck('created_at')
+            ->max();
+
+        $tanggalFormatted = $tanggal ? Carbon::parse($tanggal)->translatedFormat('d F Y') : '-';
+
+        return view('landingpages.pantauan-harga', compact('komoditas','tanggalFormatted'));
     }
 
     public function getDataStokByMonthAndYear(Request $request)

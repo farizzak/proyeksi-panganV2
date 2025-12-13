@@ -27,15 +27,13 @@ Route::prefix('landing')->controller(LandingPageController::class)->group(functi
     Route::get('/komoditas', 'komoditasPage')->name('landing.komoditas');
     Route::get('/getLanding-Komoditas', 'getLandingKomoditas')->name('getLandingKomoditas');
 
+    Route::get('/pantauan-harga', 'pantauanHargaPage')->name('landing.pantauan-harga');
+
 });
 
 Route::get('/peta', function () {
     return view('landingpages.peta');
 })->name('landing.peta');
-
-Route::get('/pantauan-harga', function () {
-    return view('landingpages.pantauan-harga');
-})->name('landing.pantauan');
 
 
 Route::controller(LoginController::class)->group(function () {
