@@ -167,11 +167,13 @@ class KetersediaanController extends Controller
                     $perkiraan = $kebutuhanTotal / 7;
                     $bulan = floor($neraca / $perkiraan / $daysInMonth);
                     $hari  = floor(($neraca / $perkiraan) - ($bulan * $daysInMonth));
+                    // $angkakecukupan = floatval(($neraca / $totakstokkebutuhan) * $daysInMonth);
                     $kecukupanHarian = "{$bulan} Bulan {$hari} Hari";
                 } else {
                     $neraca = 0;
                     $bulan = 0;
                     $hari = 0;
+                    $angkakecukupan = 0;
                     $kecukupanHarian = "0 Bulan 0 Hari";
                 }
 
@@ -198,7 +200,7 @@ class KetersediaanController extends Controller
                     'kebutuhan_rt' => $kebutuhanRT,
                     'kebutuhan_nonrt' => $kebutuhanNonRT,
                     'total_kebutuhan' => $kebutuhanTotal,
-
+                    'angka_kecukupan' => $angkakecukupan,
                     'neraca' => $neraca,
                     'kecukupan_harian' => $kecukupanHarian,
 
@@ -304,10 +306,14 @@ class KetersediaanController extends Controller
                     $perkiraan = $kebutuhanTotal / 7;
                     $bulan = max(0, floor($neraca / $perkiraan / $daysInMonth));
                     $hari  = max(0, floor(($neraca / $perkiraan) - ($bulan * $daysInMonth)));
+                    $angkakecukupan = 0;
                     $kecukupan = "{$bulan} Bulan {$hari} Hari";
                 } else {
                     $neraca = 0;
-                    $kecukupan = "0 Bulan 0 Hari";
+                    $bulan = 0;
+                    $hari = 0;
+                    $angkakecukupan = 0;
+                    $kecukupanHarian = "0 Bulan 0 Hari";
                 }
 
                 // update/detail
@@ -336,6 +342,7 @@ class KetersediaanController extends Controller
                         'kebutuhan_nonrt' => $kebutuhanNonRT,
                         'total_kebutuhan' => $kebutuhanTotal,
 
+                        'angka_kecukupan' => $angkakecukupan,
                         'neraca' => $neraca,
                         'kecukupan_harian' => $kecukupan,
 

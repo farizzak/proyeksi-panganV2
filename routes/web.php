@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ScrapingSiharpaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,24 @@ use App\Http\Controllers\LoginController;
 |--------------------------------------------------------------------------
 */
 
-Route::redirect('/', '/login');
+Route::get('/', function () {
+    return view('landingpages.index');
+})->name('home');
+
+Route::prefix('landing')->controller(LandingPageController::class)->group(function () {
+    Route::get('/dashboard', 'dashboardPage')->name('landing.dashboard');
+
+    Route::get('/komoditas', 'komoditasPage')->name('landing.komoditas');
+    Route::get('/getLanding-Komoditas', 'getLandingKomoditas')->name('getLandingKomoditas');
+
+    Route::get('/pantauan-harga', 'pantauanHargaPage')->name('landing.pantauan-harga');
+
+});
+
+Route::get('/peta', function () {
+    return view('landingpages.peta');
+})->name('landing.peta');
+
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'viewLogin')->name('login');
