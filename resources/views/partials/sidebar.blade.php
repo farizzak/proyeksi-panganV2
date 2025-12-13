@@ -43,7 +43,13 @@
 
   <!-- SIDEBAR MENU -->
   <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
-    <nav x-data="{ selected: 'Dashboard' }">
+    @php
+      $masterActive = request()->is('roles*') || request()->is('users*') || request()->is('kategori*') || request()->is('komoditas*');
+      $transaksiActive = request()->is('ketersediaan*') || request()->is('rekap*') || request()->is('bahanpokok*');
+      $initialSelected = $masterActive ? 'Master' : ($transaksiActive ? 'Transaksi Data' : 'Dashboard');
+    @endphp
+
+    <nav x-data="{ selected: @js($initialSelected) }">
       <div>
         <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
           <span class="menu-group-title" :class="sidebarToggle ? 'lg:hidden' : ''">
