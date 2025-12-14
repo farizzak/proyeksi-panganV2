@@ -7,6 +7,7 @@
     <title>Sistem Informasi Ketersediaan Pangan Semarang - SIKETAN</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="icon" href="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}" type="image/svg+xml">
 
     <style>
         :root {
@@ -456,7 +457,7 @@
             <p>Mewujudkan Semarang yang Mandiri dan Berdaulat dalam Ketahanan Pangan</p>
 
             <div class="cta">
-                <a class="primary" href="dashboard.html">Dashboard</a>
+                <a class="primary" href="{{ route('landing.dashboard')}}">Dashboard</a>
                 <a href="#layanan" class="primary">Pelajari Lebih Lanjut</a>
             </div>
         </div>

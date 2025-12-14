@@ -28,10 +28,28 @@
             overflow: hidden;
         }
 
+        .login-bg {
+            min-height: 100vh;
+            background: linear-gradient(#FF8A02, #FFB302);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        }
+
+
         /* LEFT SECTION */
         .left-section {
             /* background: linear-gradient(135deg, #FFAE70, #FF7E00); */
-            background: linear-gradient(135deg, #3C50E0, #80A6FF);
+            background: linear-gradient(#C93636, #FF8A02, #FFB302);
             color: white;
             display: flex;
             flex-direction: column;
@@ -90,14 +108,14 @@
             height: 48px;
             border-radius: 10px;
             /* background: #FF8C2A; */
-            background: #3C50E0;
+            background: #FF8A02;
             color: white;
             font-weight: 600;
         }
 
         .btn-login:hover {
             /* background: #E97818; */
-            background: #273AC7;
+            background: #ee8002;
         }
 
         .link-custom {
@@ -145,6 +163,9 @@
             .left-section { display: none; }
             body { background: #FFF6EE; }
             .right-section { justify-content: center; width: 100%; padding: 40px; }
+            .login-wrapper {
+                margin: 20px;
+            }
         }
 
         @media (min-width: 1400px) {
@@ -171,9 +192,11 @@
     </style>
 </head>
 
-<body>
+<body class="login-bg">
 
-<div class="row g-0 h-100">
+<div class="login-wrapper">
+    <div class="row g-0">
+
 
     <!-- LEFT ORANGE SECTION -->
     <div class="col-lg-6 left-section">
@@ -197,7 +220,7 @@
         <form method="post" action="{{ route('login.process') }}" class="w-100" style="max-width: 380px;">
             @csrf
 
-            <h3 class="mb-3 fw-bold" style="color:#5A3E2B">Sign In</h3>
+            <h3 class="mb-3 fw-bold" style="color:#FF8A02">Sign In</h3>
             <p class="text-muted mb-4">Masukkan email & password Anda</p>
 
             @if (session('success'))
@@ -231,7 +254,7 @@
 
                 <button type="button" id="reload-captcha"
                     class="btn"
-                    style="background:#3C50E0; color:white; padding:10px 14px; border-radius:8px;">
+                    style="background:#FF8A02; color:white; padding:10px 14px; border-radius:8px;">
                     <i class="fa fa-rotate-right"></i>
                 </button>
 
@@ -249,7 +272,7 @@
             <button class="btn btn-login w-100 mb-3">Sign In</button>
         </form>
     </div>
-
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -321,7 +344,7 @@
                 icon: 'error',
                 title: 'Captcha Salah',
                 text: 'Silakan coba lagi.',
-                confirmButtonColor: '#3C50E0',
+                confirmButtonColor: '#FF8A02',
                 background: '#fff',
                 heightAuto: false,
                 backdrop: `
