@@ -49,12 +49,12 @@ html {
 
 /* Tetap sama di dark mode */
 .dark .btn-brand-stable {
-  background-color: rgb(var(--color-brand-500, 59, 130, 246)) !important; /* fallback ke warna brand-500 */
+  background-color: rgb(var(--color-brand-500, 251, 101, 20)) !important; /* fallback ke warna brand-500 */
   color: #fff !important;
 }
 
 .dark .btn-brand-stable:hover {
-  background-color: rgb(var(--color-brand-600, 37, 99, 235)) !important; /* fallback ke warna brand-600 */
+  background-color: rgb(var(--color-brand-600, 236, 74, 10)) !important; /* fallback ke warna brand-600 */
 }
 
 

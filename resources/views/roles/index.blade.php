@@ -82,13 +82,15 @@
 
     /* Force Submit button background in dark mode for this view */
     html.dark #submitRoleBtn {
-      background-color: rgb(37 99 235) !important; /* blue-600 */
+      background-color: rgb(249 115 22) !important; /* orange-500 */
       border-color: transparent !important;
       color: #fff !important;
     }
+
     html.dark #submitRoleBtn:hover {
-      background-color: rgb(29 78 216) !important; /* blue-700 */
+      background-color: rgb(234 88 12) !important; /* orange-600 */
     }
+
   </style>
 @endpush
 
@@ -151,7 +153,7 @@
                 Reset
               </button>
               <button id="submitRoleBtn" type="submit" 
-                class="btn-brand-stable bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 text-sm font-medium text-white rounded-lg flex items-center gap-1">
+                class="btn-brand-stable bg-orange-600 hover:bg-orange-700 dark:bg-orange-600 dark:hover:bg-orange-700 px-4 py-2 text-sm font-medium text-white rounded-lg flex items-center gap-1">
                 Submit
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
