@@ -2482,167 +2482,169 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        let regions = {}; // Placeholder untuk data wilayah
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeModal();
+        });
 
-        // Fungsi untuk memfilter data berdasarkan bulan dan tahun
+        let regions = {};
+
         function filterData(response) {
-            if (Array.isArray(response) && response.length === 0) {
+            if (!response || Object.keys(response).length === 0) {
                 regions = {};
-                document.getElementById('region-details').innerHTML = `
-                    <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 shadow-sm">
-                        <i class="fas fa-info-circle text-orange-500"></i>
-                        <span>Tidak ada data tersedia untuk periode yang dipilih</span>
-                    </div>
-                `;
+                const el = document.getElementById('region-details');
+                if (el) {
+                    el.innerHTML = `
+                        <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 shadow-sm">
+                            <i class="fas fa-info-circle text-orange-500"></i>
+                            <span>Tidak ada data tersedia untuk periode yang dipilih</span>
+                        </div>
+                    `;
+                }
             } else {
                 regions = response;
             }
         }
 
-
-        // Fungsi untuk menampilkan tooltip saat hover
         function showTooltip(event, region) {
+            hideTooltip();
+
             const tooltip = document.createElement('div');
             tooltip.className = 'tooltip-custom';
 
-            let content = `<h6 class="mb-2">${region.nama.toUpperCase()}</h6>`;
+            let content = `<h6 class="mb-2 font-bold">${region.nama.toUpperCase()}</h6>`;
             region.komoditas.forEach(item => {
                 content += `
-                <div class="mb-1">
-                    <strong>${item.nama}</strong><br>
-                    Harga: ${item.harga}<br>
-                    Stok: ${item.stok}
-                </div>
-            `;
+                    <div class="mb-1 text-xs">
+                        <strong>${item.nama}</strong><br>
+                        Stok: ${item.stok} kg
+                    </div>
+                `;
             });
 
             tooltip.innerHTML = content;
             document.body.appendChild(tooltip);
 
-            tooltip.style.left = event.pageX + 10 + 'px';
-            tooltip.style.top = event.pageY + 10 + 'px';
+            tooltip.style.left = event.pageX + 12 + 'px';
+            tooltip.style.top  = event.pageY + 12 + 'px';
         }
 
         function hideTooltip() {
-            const tooltips = document.getElementsByClassName('tooltip-custom');
-            while (tooltips[0]) {
-                tooltips[0].parentNode.removeChild(tooltips[0]);
-            }
+            document.querySelectorAll('.tooltip-custom').forEach(el => el.remove());
         }
 
         function colorRegions() {
-            // Reset semua path jadi abu-abu dulu (batas wilayah lebih terlihat)
-            const allPaths = document.querySelectorAll('svg path');
-            allPaths.forEach(path => {
-                path.style.fill = '#ccc'; // abu-abu default
-                path.style.stroke = '#ffffff'; // opsional: garis batas
-                path.style.strokeWidth = '1'; // opsional: tebal batas
+            document.querySelectorAll('svg path').forEach(path => {
+                path.style.fill = '#ccc';
+                path.style.stroke = '#fff';
+                path.style.strokeWidth = '1';
             });
 
             Object.keys(regions).forEach(regionId => {
                 const path = document.getElementById(regionId);
-                if (path) {
-                    const totalStock = regions[regionId].komoditas.reduce((sum, item) => {
-                        const cleanStok = parseFloat(item.stok.toString().replace(/kg/gi, '').trim()) || 0;
-                        return sum + cleanStok;
-                    }, 0);
+                if (!path) return;
 
-                    if (totalStock > 150) {
-                        path.style.fill = '#28a745'; // Hijau
-                    } else if (totalStock > 100) {
-                        path.style.fill = '#ffc107'; // Kuning
-                    } else {
-                        path.style.fill = '#dc3545'; // Merah
-                    }
+                const totalStock = regions[regionId].komoditas.reduce(
+                    (sum, item) => sum + (parseInt(item.stok) || 0), 0
+                );
 
-                    path.addEventListener('mouseover', (e) => showTooltip(e, regions[regionId]));
-                    path.addEventListener('mouseout', hideTooltip);
+                if (totalStock > 150) {
+                    path.style.fill = '#28a745';
+                } else if (totalStock > 100) {
+                    path.style.fill = '#ffc107';
+                } else {
+                    path.style.fill = '#dc3545';
                 }
+
+                path.onmouseover = e => showTooltip(e, regions[regionId]);
+                path.onmouseout  = hideTooltip;
             });
         }
 
-        // Fungsi untuk menangani perubahan filter
         function updateRegions() {
             const bulan = $('#filter-bulan').val();
             const tahun = $('#filter-tahun').val();
 
-            // Panggil API dengan filter bulan dan tahun
             $.ajax({
-                url: `/getLanding-Peta`,
-                type: 'GET',
+                url: '/landing/getLanding-Peta',
+                method: 'GET',
                 data: { bulan, tahun },
                 success: function (response) {
-                    console.log('Respons dari server:', response);
-                    filterData(response); // Filter ulang data
-                    colorRegions(); // Update warna wilayah
+                    console.log('API:', response);
+                    filterData(response);
+                    colorRegions();
                 },
-                error: function (err) {
-                    console.error('Error:', err);
+                error: function (xhr) {
+                    console.error('API Error', xhr.responseText);
                 }
             });
         }
 
         $(document).ready(function () {
-            // Default filter
-            const bulan = new Date().getMonth() + 1;
-            const tahun = new Date().getFullYear();
+            const now = new Date();
+            $('#filter-bulan').val(now.getMonth() + 1);
+            $('#filter-tahun').val(now.getFullYear());
 
-            $('#filter-bulan').val(bulan);
-            $('#filter-tahun').val(tahun);
-
-            // Update data awal
             updateRegions();
 
-            // Event listener untuk perubahan filter
-            $('#filter-bulan').on('change', updateRegions);
-            $('#filter-tahun').on('change', updateRegions);
+            $('#filter-bulan, #filter-tahun').on('change', updateRegions);
         });
 
         function openModal() {
             const modal = document.getElementById('kecamatanModal');
+            if (!modal) return;
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
         function closeModal() {
             const modal = document.getElementById('kecamatanModal');
+            if (!modal) return;
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
 
         function showModal(kecamatan) {
-            const titleSpan = document.getElementById('kecamatanName');
-            const container = document.getElementById('komoditasContainer');
+            const key = kecamatan.toLowerCase().replace(/\s+/g, '');
+            const data = regions[key];
 
-            container.innerHTML = '';
+            const title = document.getElementById('kecamatanName');
+            const box = document.getElementById('komoditasContainer');
 
-            const kecamatanKey = typeof kecamatan === 'string' ?
-                kecamatan.toLowerCase().replace(/\s+/g, '') :
-                '';
+            if (!title || !box) return;
 
-            const data = regions[kecamatanKey];
+            title.textContent = kecamatan;
+            box.innerHTML = '';
 
-            if (data && data.komoditas && data.komoditas.length > 0) {
-                titleSpan.textContent = data.nama;
-
-                data.komoditas.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'flex flex-col gap-1 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 shadow-sm';
-                    div.innerHTML = `
-                        <div class="text-sm font-semibold text-slate-800">${item.nama}</div>
-                        <div class="text-xs text-slate-600">Stok: ${item.stok}</div>
-                    `;
-                    container.appendChild(div);
-                });
-            } else {
-                container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-slate-200 bg-white px-4 py-8 text-center text-slate-600">
-                        <i class="fas fa-exclamation-circle text-orange-500 text-lg"></i>
-                        <p class="text-sm font-medium">Tidak ada data tersedia untuk kecamatan ini</p>
+            if (!data || !data.komoditas || data.komoditas.length === 0) {
+                box.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed bg-white p-8 text-center">
+                        <i class="fas fa-database text-3xl text-orange-400"></i>
+                        <p class="text-sm font-semibold text-slate-700">Data tidak tersedia</p>
+                        <p class="text-xs text-slate-500">Tidak ada data komoditas untuk kecamatan ini</p>
                     </div>
                 `;
+            } else {
+                data.komoditas.forEach(item => {
+                    box.innerHTML += `
+                        <div class="rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-100 text-orange-500">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold text-slate-800">${item.nama}</div>
+                                    <div class="text-xs text-slate-500">Stok tersedia</div>
+                                </div>
+                            </div>
+                            <div class="mt-3 text-sm font-bold text-slate-700">
+                                ${item.stok} kg
+                            </div>
+                        </div>
+                    `;
+                });
             }
 
             openModal();
@@ -2701,27 +2703,44 @@
             }
         }
 
-        document.getElementById('kecamatanModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeModal();
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('kecamatanModal');
+            if (!modal) return;
+
+            modal.addEventListener('click', e => {
+                if (e.target === modal) closeModal();
+            });
         });
 
     </script>
     <!-- Modal -->
     <div id="kecamatanModal" class="fixed inset-0 z-[10000] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="w-full max-w-3xl rounded-2xl border border-slate-100 bg-white shadow-2xl">
-            <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+        <div class="w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between border-b bg-white px-6 py-4">
                 <h3 class="flex items-center gap-2 text-lg font-semibold text-slate-800">
-                    <i class="fas fa-map-marker-alt mr-1 text-orange-500"></i>
-                    Kecamatan <span id="kecamatanName"></span>
+                    <i class="fas fa-map-marker-alt text-orange-500"></i>
+                    Kecamatan <span id="kecamatanName" class="text-orange-600"></span>
                 </h3>
-                <button class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200" onclick="closeModal()">
-                    <i class="fas fa-times"></i>
+
+                <!-- Tombol Close -->
+                <button
+                    onclick="closeModal()"
+                    class="text-slate-400 text-2xl font-bold leading-none
+                        transition hover:text-red-600
+                        focus:outline-none"
+                    aria-label="Tutup Modal"
+                >
+                    ×
                 </button>
+
             </div>
-            <div id="komoditasContainer" class="grid gap-3 bg-slate-50 px-6 py-6 sm:grid-cols-2">
-                <!-- Dynamic content -->
+
+
+            <!-- Content -->
+            <div id="komoditasContainer" class="max-h-[65vh] overflow-y-auto grid gap-4 bg-slate-50 p-6 sm:grid-cols-2 lg:grid-cols-3">
+                <!-- dynamic -->
             </div>
         </div>
     </div>
