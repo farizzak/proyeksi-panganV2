@@ -117,7 +117,7 @@
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M3 7.5V6a1.5 1.5 0 011.5-1.5h5.379a1.5 1.5 0 011.06.44l1.56 1.56A1.5 1.5 0 0013.56 7.5H19.5A1.5 1.5 0 0121 9v9a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 18V7.5z"
+                  d="M4 4h6v6H4z M14 4h6v6h-6z M4 14h6v6H4z M14 14h6v6h-6z"
                 />
               </svg>
 
@@ -203,11 +203,10 @@
                 stroke="currentColor"
                 stroke-width="1.5"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7.5 3h9A1.5 1.5 0 0118 4.5v15a1.5 1.5 0 01-1.5 1.5h-9A1.5 1.5 0 016 19.5v-15A1.5 1.5 0 017.5 3zM9 8.25h6M9 12h6m-6 3.75h3"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+              </svg>
+                
               </svg>
 
               <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">

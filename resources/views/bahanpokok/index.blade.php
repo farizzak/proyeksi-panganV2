@@ -87,7 +87,7 @@
         <input type="hidden" name="from" id="save_from">
         <input type="hidden" name="to" id="save_to">
         <button type="submit"
-          class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition">
+          class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 transition">
           <i class="fa-solid fa-plus"></i>
           Simpan Data
         </button>
@@ -107,7 +107,7 @@
           <input type="date" id="toDate" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100" />
         </div>
 
-        <button id="btnFilter" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Filter</button>
+        <button id="btnFilter" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg">Filter</button>
         <button id="btnReset" class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg">Reset</button>
       </div>
 

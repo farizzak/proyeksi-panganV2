@@ -112,7 +112,7 @@
       <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Komoditas</h2>
 
       <a href="{{ route('komoditas.create') }}"
-        class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition">
+        class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 transition">
         <i class="fa-solid fa-plus"></i>
         Tambah Komoditas
       </a>
