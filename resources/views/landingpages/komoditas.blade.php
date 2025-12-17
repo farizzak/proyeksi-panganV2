@@ -9,6 +9,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="icon" href="{{ asset('tailadmin/images/logo/logo_pemkot.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+
 
     <style>
         :root {
@@ -101,6 +107,21 @@
             transform: translateY(-2px);
         }
 
+        .nav .menu a.active {
+            color: var(--orange);
+        }
+
+        .nav .menu a.active::after {
+            width: 100%;
+        }
+
+        /* hover tetap berlaku untuk menu lain */
+        .nav .menu a:not(.active):hover {
+            color: var(--orange);
+            transform: translateY(-2px);
+        }
+
+
         .btn-login {
             background: var(--orange);
             color: #fff !important;
@@ -192,6 +213,38 @@
         }
         .footer-bottom a { color:#fff; text-decoration:none; }
         .footer-bottom a:hover { text-decoration:underline; }
+
+        .footer-social {
+            margin-top: 16px;
+            display: flex;
+            gap: 14px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 16px;
+
+            /* ⛔ hilangkan underline */
+            text-decoration: none !important;
+
+            transition: all .25s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--orange);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+
+            /* tetap tanpa underline saat hover */
+            text-decoration: none !important;
+        }
     </style>
 </head>
 
@@ -204,13 +257,34 @@
             <div>SIKETAN</div>
         </div>
         <nav class="menu">
-            <a href="{{ route('home') }}">Beranda</a>
-            <a href="{{ route('landing.dashboard')}}">Dashboard</a>
-            <a href="{{ route('landing.komoditas')}}">Komoditas</a>
-            <a href="{{ route('landing.pantauan-harga')}}">Pantauan Harga</a>
-            <a href="{{ route('landing.peta')}}">Peta</a>
+            <a href="{{ route('home') }}"
+            class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                Beranda
+            </a>
+
+            <a href="{{ route('landing.dashboard') }}"
+            class="{{ request()->routeIs('landing.dashboard') ? 'active' : '' }}">
+                Dashboard
+            </a>
+
+            <a href="{{ route('landing.komoditas') }}"
+            class="{{ request()->routeIs('landing.komoditas') ? 'active' : '' }}">
+                Komoditas
+            </a>
+
+            <a href="{{ route('landing.pantauan-harga') }}"
+            class="{{ request()->routeIs('landing.pantauan-harga') ? 'active' : '' }}">
+                Pantauan Harga
+            </a>
+
+            <a href="{{ route('landing.peta') }}"
+            class="{{ request()->routeIs('landing.peta') ? 'active' : '' }}">
+                Peta
+            </a>
+
             <a class="btn-login" href="{{ route('login') }}">Login</a>
         </nav>
+
     </header>
 
     <!-- HERO -->
@@ -297,6 +371,13 @@
                 <div class="footer-desc">
                     Sistem Informasi Ketersediaan Pangan<br>
                     Semarang
+                </div>
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
                 </div>
             </div>
 

@@ -30,11 +30,12 @@
 
         .login-bg {
             min-height: 100vh;
-            background: linear-gradient(#FF8A02, #FFB302);
+            background: #F8FAFC; /* putih soft, tidak silau */
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
 
         .login-wrapper {
             width: 100%;
@@ -42,8 +43,9 @@
             background: white;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.12);
         }
+
 
 
         /* LEFT SECTION */
