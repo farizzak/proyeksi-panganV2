@@ -90,7 +90,7 @@
 
         /* RIGHT SECTION */
         .right-section {
-            background: #FFF6EE;
+            background: #FFEECC;
             padding: 60px 80px;
             display: flex;
             align-items: center;
