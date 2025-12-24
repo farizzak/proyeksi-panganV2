@@ -73,6 +73,25 @@
       padding:.5rem .6rem; border:1px solid rgb(229 231 235); border-radius:.5rem; background:transparent;
     }
     html.dark input[type="date"] { border-color: rgb(55 65 81); color: rgb(243 244 246); }
+
+    html.dark #submitRoleBtn {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #submitRoleBtn:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
+    html.dark #btnFilter {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #btnFilter:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
   </style>
 @endpush
 
@@ -86,7 +105,7 @@
         @csrf
         <input type="hidden" name="from" id="save_from">
         <input type="hidden" name="to" id="save_to">
-        <button type="submit"
+        <button type="submit" id="submitRoleBtn"
           class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 transition">
           <i class="fa-solid fa-plus"></i>
           Simpan Data

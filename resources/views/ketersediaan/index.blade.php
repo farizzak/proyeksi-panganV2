@@ -104,6 +104,26 @@
       transform: translateX(20px);
     }
 
+     html.dark #submitRoleBtn {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #submitRoleBtn:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
+
+    html.dark #btnFilter {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #btnFilter:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
+
   </style>
 @endpush
 
@@ -113,7 +133,7 @@
     <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-800 mb-6">
       <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">Ketersediaan</h2>
 
-      <a href="{{ route('ketersediaan.create') }}"
+      <a href="{{ route('ketersediaan.create') }}" id="submitRoleBtn"
         class="inline-flex items-center gap-2 px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-lg hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 transition">
         <i class="fa-solid fa-plus"></i>
         Tambah Ketersediaan

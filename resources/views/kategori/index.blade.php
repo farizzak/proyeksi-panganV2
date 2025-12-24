@@ -79,6 +79,16 @@
     #dataTable tbody tr { transition: background-color .15s ease; }
     #dataTable tbody tr:hover { background-color:rgb(249 250 251); }
     html.dark #dataTable tbody tr:hover { background-color:rgb(31 41 55); }
+
+    html.dark #submitRoleBtn {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #submitRoleBtn:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
   </style>
 @endpush
 
@@ -140,7 +150,7 @@
                       dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">
                 Reset
               </button>
-              <button type="submit" 
+              <button type="submit" id="submitRoleBtn"
                 class="btn-brand-stable px-4 py-2 text-sm font-medium text-white rounded-lg flex items-center gap-1">
                 Submit
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

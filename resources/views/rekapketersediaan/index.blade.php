@@ -3,6 +3,18 @@
 @section('title', 'Rekap Ketersediaan')
 
 @push('styles')
+<style>
+    html.dark #btnFilter {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #btnFilter:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
+
+</style>
 @endpush
 
 @section('content')
@@ -44,7 +56,7 @@
                 </select>
             </div>
 
-            <button type="submit" id="btnFilter" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+            <button id="btnFilter" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg">
                 Filter
             </button>
 
