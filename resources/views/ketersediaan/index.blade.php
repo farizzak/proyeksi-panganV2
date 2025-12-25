@@ -104,7 +104,7 @@
       transform: translateX(20px);
     }
 
-     html.dark #submitRoleBtn {
+    html.dark #submitRoleBtn {
       background-color: rgb(249 115 22) !important; /* orange-500 */
       border-color: transparent !important;
       color: #fff !important;

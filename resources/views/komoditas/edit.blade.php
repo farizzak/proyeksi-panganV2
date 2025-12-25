@@ -1,4 +1,19 @@
 @extends('layouts.tailadmin')
+@section('title', 'Edit Komoditas')
+
+@push('styles')
+    <style>
+        html.dark #submitRoleBtn {
+        background-color: rgb(249 115 22) !important; /* orange-500 */
+        border-color: transparent !important;
+        color: #fff !important;
+        }
+
+        html.dark #submitRoleBtn:hover {
+        background-color: rgb(234 88 12) !important; /* orange-600 */
+        }
+    </style>
+@endpush
 
 @section('content')
 <div class="grid grid-cols-1 gap-6">
@@ -165,8 +180,8 @@
                 <!-- Buttons -->
                 <div class="flex items-center justify-end gap-3 px-5 pb-5">
                     <a href="{{ route('komoditas.index') }}" class="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm">Kembali</a>
-                    <button class="px-5 py-2 rounded-lg bg-brand-600 text-white text-sm hover:bg-brand-700">
-                        Update
+                    <button id="submitRoleBtn" class="px-5 py-2 rounded-lg bg-brand-600 text-white text-sm hover:bg-brand-700">
+                        Simpan
                     </button>
                 </div>
 

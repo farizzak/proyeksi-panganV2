@@ -1,4 +1,19 @@
 @extends('layouts.tailadmin')
+@section('title', 'Create Komoditas')
+
+@push('styles')
+    <style>
+        html.dark #submitRoleBtn {
+        background-color: rgb(249 115 22) !important; /* orange-500 */
+        border-color: transparent !important;
+        color: #fff !important;
+        }
+
+        html.dark #submitRoleBtn:hover {
+        background-color: rgb(234 88 12) !important; /* orange-600 */
+        }
+    </style>
+@endpush
 
 @section('content')
 <div class="grid grid-cols-1 gap-6">
@@ -177,8 +192,7 @@
                         Kembali
                     </a>
 
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
+                    <button id="submitRoleBtn" class="px-5 py-2 rounded-lg bg-brand-600 text-white text-sm hover:bg-brand-700">
                         Simpan
                     </button>
                 </div>

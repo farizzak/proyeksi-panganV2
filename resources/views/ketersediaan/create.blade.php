@@ -1,5 +1,32 @@
 @extends('layouts.tailadmin')
 
+@section('title', 'Create Ketersediaan')
+
+@push('styles')
+<style>
+    html.dark #submitRoleBtn {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #submitRoleBtn:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
+
+    html.dark #theadbg {
+      background-color: rgb(249 115 22) !important; /* orange-500 */
+      border-color: transparent !important;
+      color: #fff !important;
+    }
+
+    html.dark #theadbg:hover {
+      background-color: rgb(234 88 12) !important; /* orange-600 */
+    }
+</style>
+    
+@endpush
+
 @section('content')
 <div class="grid grid-cols-1 gap-6">
     <div class="space-y-6">
@@ -30,7 +57,7 @@
                     {{-- Table --}}
                     <div class="overflow-auto">
                         <table class="min-w-full border border-gray-300 text-sm">
-                            <thead class="text-white" style="background-color: #6366F1;">
+                            <thead class="text-white" style="background-color: #FB6514;" id="theadbg">
                                 <tr>
                                     <th class="px-3 py-2 border">Komoditas</th>
                                     <th class="px-3 py-2 border">Harga Siharpa (Rp)</th>
@@ -131,8 +158,7 @@
                         Kembali
                     </a>
 
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">
+                    <button id="submitRoleBtn" type="submit" class="btn-brand-stable bg-orange-600 hover:bg-orange-700 dark:bg-orange-600 dark:hover:bg-orange-700 px-4 py-2 text-sm font-medium text-white rounded-lg flex items-center gap-1">
                         Simpan
                     </button>
                 </div>
