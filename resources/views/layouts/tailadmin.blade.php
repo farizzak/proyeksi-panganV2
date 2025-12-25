@@ -12,6 +12,8 @@
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>@yield('title', 'Dashboard | TailAdmin')</title>
+    <link rel="icon" href="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('tailadmin/images/logo/logo_kotaSemarang.png') }}" type="image/x-icon" />
 
     {{-- DataTables Tailwind CSS theme --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.tailwindcss.min.css">
