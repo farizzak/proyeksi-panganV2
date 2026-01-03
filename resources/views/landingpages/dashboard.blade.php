@@ -351,7 +351,7 @@
     <div class="dashboard-content py-20 px-4 md:px-6 max-w-6xl mx-auto space-y-10">
 
         <!-- RINGKASAN -->
-        <div class="grid gap-4 md:grid-cols-3">
+        {{-- <div class="grid gap-4 md:grid-cols-3">
             <div class="rounded-2xl bg-white shadow-md border border-gray-100 p-4">
                 <p class="text-sm text-gray-500">Total Ketersediaan</p>
                 <p class="text-2xl font-bold text-gray-900 mt-1">{{ number_format($totalKetersediaan, 2, ',', '.') }}</p>
@@ -369,7 +369,7 @@
                 </p>
                 <p class="text-xs text-gray-400 mt-1">Selisih ketersediaan vs kebutuhan</p>
             </div>
-        </div>
+        </div> --}}
 
         <!-- FILTER SECTION -->
         <div class="rounded-2xl bg-white shadow-md border border-gray-100 p-6">

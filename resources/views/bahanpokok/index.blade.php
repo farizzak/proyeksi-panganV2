@@ -114,6 +114,10 @@
     </div>
 
     <div class="grid grid-cols-1 gap-6">
+      <div id="scrapeError"
+        class="hidden rounded-lg border border-orange-200 bg-orange-50 text-orange-800 px-4 py-3 text-sm dark:border-orange-700/50 dark:bg-orange-900/30 dark:text-orange-200">
+        Sumber data sedang pemeliharaan. Coba beberapa saat lagi.
+      </div>
       <!-- FILTER (Tanggal Dari - Sampai) -->
       <div class="mb-4 flex flex-wrap items-end gap-3">
         <div>
@@ -185,6 +189,8 @@
   $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' } });
 
   $(document).ready(function () {
+    $.fn.dataTable.ext.errMode = 'none';
+
     // default tanggal: yesterday - today (format input date: YYYY-MM-DD)
     const today = new Date();
     const yesterday = new Date(today);
@@ -244,9 +250,14 @@
           // jika terjadi error dari server, tampilkan pesan di console dan kembalikan array kosong
           if (json.error) {
             console.error('Scrape error:', json.error);
+            $('#scrapeError').removeClass('hidden').text(json.error);
             return [];
           }
+          $('#scrapeError').addClass('hidden');
           return json.data || [];
+        },
+        error: function () {
+          $('#scrapeError').removeClass('hidden').text('Sumber data tidak dapat diakses. Coba beberapa saat lagi.');
         }
       },
       columns: [

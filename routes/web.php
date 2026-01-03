@@ -8,6 +8,7 @@ use App\Http\Controllers\KetersediaanController;
 use App\Http\Controllers\RekapKetersediaan;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ScrapingSiharpaController;
+use App\Http\Controllers\DistributionDataController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LandingPageController;
@@ -74,6 +75,12 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(RekapKetersediaan::class)->group(function () {
         Route::resource('/rekap', RekapKetersediaan::class);
     });
+
+    Route::get('/download-template', [DistributionDataController::class, 'indextemplate'])->name('distribution_data.download');
+    Route::get('/download-template/export-template/{month}', [DistributionDataController::class, 'exportTemplate'])->name('distribution_data.export-template');
+    Route::post('/download-template/upload-template', [DistributionDataController::class, 'uploadTemplate'])->name('distribution_data.upload-template');
+
+    Route::get('/distributiondata', [DistributionDataController::class, 'index'])->name('distribution_data.index');
 
     Route::controller(ScrapingSiharpaController::class)->group(function () {
         Route::get('/bahanpokok', [ScrapingSiharpaController::class, 'index'])->name('bahanpokok.index');

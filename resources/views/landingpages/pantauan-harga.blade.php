@@ -310,7 +310,7 @@
             Pantauan Harga
         </h1>
 
-        <section class="bg-white shadow-md rounded-xl overflow-hidden">
+        {{-- <section class="bg-white shadow-md rounded-xl overflow-hidden">
             <div class="px-6 py-4 border-b">
                 <h2 class="text-lg font-medium text-gray-700">
                     Dashboard Harga Pasar
@@ -325,7 +325,7 @@
                     allowfullscreen
                 ></iframe>
             </div>
-        </section>
+        </section> --}}
 
         <section class="bg-white shadow-md rounded-xl p-6">
             <h3 class="text-lg font-medium text-gray-700 mb-4">
