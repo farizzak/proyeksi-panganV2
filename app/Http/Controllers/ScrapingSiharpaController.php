@@ -73,24 +73,13 @@ class ScrapingSiharpaController extends Controller
             $response = Http::timeout(60)->get($url);
 
             if ($response->failed()) {
-                return response()->json([
-                    'data' => [],
-                    'error' => 'Sumber data sedang pemeliharaan atau tidak dapat diakses.'
-                ]);
+                return response()->json(['error' => 'Gagal mengambil data dari sumber eksternal.'], 500);
             }
 
             $html = $response->body();
             $crawler = new Crawler($html);
 
-            $tbody = $crawler->filter('#tbody_data_bahan_pokok');
-            if ($tbody->count() === 0) {
-                return response()->json([
-                    'data' => [],
-                    'error' => 'Struktur sumber data berubah atau sedang pemeliharaan.'
-                ]);
-            }
-
-            $data = $tbody->filter('> tr')->each(function (Crawler $node) {
+            $data = $crawler->filter('#tbody_data_bahan_pokok > tr')->each(function (Crawler $node) {
                 $harga_tanggal_1 = floatval(str_replace(',', '', $node->filter('td:nth-child(3) .list_group-id_bapok')->text()));
                 $harga_tanggal_2 = floatval(str_replace(',', '', $node->filter('td:nth-child(4) .list_group-id_bapok')->text()));
 
@@ -115,10 +104,7 @@ class ScrapingSiharpaController extends Controller
 
             return response()->json(['data' => $data]);
         } catch (\Exception $e) {
-            return response()->json([
-                'data' => [],
-                'error' => 'Gagal mengambil data. Silakan coba lagi nanti.'
-            ]);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

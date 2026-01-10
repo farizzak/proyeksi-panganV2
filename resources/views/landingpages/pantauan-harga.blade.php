@@ -371,9 +371,9 @@
                                 </td>
                                 <td class="px-4 py-3 font-medium">
                                     @if ($status === 'Naik')
-                                        <span class="text-green-600">▲ Naik</span>
+                                        <span class="text-red-600">▲ Naik</span>
                                     @elseif ($status === 'Turun')
-                                        <span class="text-red-600">▼ Turun</span>
+                                        <span class="text-green-600">▼ Turun</span>
                                     @elseif ($status === 'Tetap')
                                         <span class="text-gray-500">▬ Tetap</span>
                                     @else
