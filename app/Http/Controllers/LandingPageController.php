@@ -153,6 +153,7 @@ class LandingPageController extends Controller
             ->filter()
             ->pluck('created_at')
             ->max();
+            // dd($komoditas);
 
         $tanggalFormatted = $tanggal ? Carbon::parse($tanggal)->translatedFormat('d F Y') : '-';
 

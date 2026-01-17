@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(KomoditasController::class)->group(function () {
         Route::post('/komoditas/{id}/status', [KomoditasController::class, 'updateStatus'])->name('komoditas.status');
+        Route::get('/komoditas/counts', [KomoditasController::class, 'counts'])->name('komoditas.counts');
         Route::resource('/komoditas', KomoditasController::class);
     });
 

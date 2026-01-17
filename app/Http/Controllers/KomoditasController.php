@@ -201,5 +201,13 @@ class KomoditasController extends Controller
         ]);
     }
 
+    public function counts()
+    {
+        return response()->json([
+            'aktif' => MKomoditas::where('status', 1)->count(),
+            'nonAktif' => MKomoditas::where('status', 0)->count(),
+        ]);
+    }
+
     
 }

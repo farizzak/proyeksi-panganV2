@@ -44,6 +44,7 @@
   <!-- SIDEBAR MENU -->
   <div class="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
     @php
+      $isAdmin = auth()->check() && optional(auth()->user()->role)->name === 'Admin';
       $masterActive = request()->is('roles*')
         || request()->is('users*')
         || request()->is('kategori*')
@@ -103,6 +104,7 @@
           </li>
           <!-- END DASHBOARD -->
 
+          @if (!$isAdmin)
           <!-- MASTER -->
           <li>
             <a
@@ -191,6 +193,7 @@
             </div>
           </li>
           <!-- END MASTER -->
+          @endif
 
           <!-- TRANSAKSI DATA -->
           <li>

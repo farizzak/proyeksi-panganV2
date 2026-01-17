@@ -139,7 +139,7 @@
                 </div>
                 <div>
                     <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Komoditas Aktif</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">{{ $aktif }}</h3>
+                    <h3 id="komoditasAktifCount" class="text-2xl font-bold text-gray-800 dark:text-white">{{ $aktif }}</h3>
                 </div>
             </div>
 
@@ -151,7 +151,7 @@
                 </div>
                 <div>
                     <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Komoditas Non Aktif</p>
-                    <h3 class="text-2xl font-bold text-gray-800 dark:text-white">{{ $nonAktif }}</h3>
+                    <h3 id="komoditasNonAktifCount" class="text-2xl font-bold text-gray-800 dark:text-white">{{ $nonAktif }}</h3>
                 </div>
             </div>
 
@@ -221,6 +221,9 @@
     const $submit = $('#myform button[type="submit"]');
     const $method = $('#method');
     const $title  = $('#formtitle');
+    const countsUrl = "{{ route('komoditas.counts') }}";
+    const $aktifCount = $('#komoditasAktifCount');
+    const $nonAktifCount = $('#komoditasNonAktifCount');
 
     // Inisialisasi DataTable
     const table = $('#dataTable').DataTable({
@@ -354,10 +357,28 @@
           showConfirmButton: false,
           timer: 1300,
         });
+        refreshKomoditasCounts();
       }).fail(function () {
         Swal.fire('Error', 'Gagal mengubah status', 'error');
       });
     });
+
+    function refreshKomoditasCounts() {
+      fetch(countsUrl, { headers: { 'Accept': 'application/json' } })
+        .then(res => res.json())
+        .then(data => {
+          if (typeof data.aktif !== 'undefined') {
+            $aktifCount.text(data.aktif);
+          }
+          if (typeof data.nonAktif !== 'undefined') {
+            $nonAktifCount.text(data.nonAktif);
+          }
+        })
+        .catch(() => {});
+    }
+
+    refreshKomoditasCounts();
+    setInterval(refreshKomoditasCounts, 5000);
 
 
 
@@ -380,6 +401,7 @@
                 success: function (res) {
                     Swal.fire('Deleted!', res.message, 'success');
                     table.ajax.reload();
+                    refreshKomoditasCounts();
                 },
                 error: function () {
                     Swal.fire('Error', 'Gagal menghapus data', 'error');
