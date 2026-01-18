@@ -19,7 +19,7 @@
         <div class="db-grid grid gap-6">
 
             {{-- Card: Total Komoditas --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #b7e9f6 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color: #0ea5b7; font-weight:600;">&nbsp;</div>
                         </div>
@@ -31,7 +31,7 @@
             </div>
 
             {{-- Card: Total Aman (Minggu Ini) --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #c9f7df 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color:#064e3b; font-weight:600;">{{ ($status['aman'] ?? 0) . '%' }}</div>
                         </div>
@@ -43,7 +43,7 @@
             </div>
 
             {{-- Card: Total Waspada --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #fde9b2 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color:#92400e; font-weight:600;">{{ ($status['waspada'] ?? 0) . '%' }}</div>
                         </div>
@@ -55,7 +55,7 @@
             </div>
 
             {{-- Card: Segera Intervensi --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #f7c4c4 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color:#7f1d1d; font-weight:600;">{{ ($status['segera'] ?? 0) . '%' }}</div>
                         </div>
@@ -67,7 +67,7 @@
             </div>
 
             {{-- Card: Total Users --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #b7e9f6 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color:#055e67; font-weight:600;">+{{ $userCount ? 5 : 0 }}</div>
                         </div>
@@ -79,7 +79,7 @@
             </div>
 
             {{-- Card: Total Kategori --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #ffd1c7 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color:#7c2d12; font-weight:600;">&nbsp;</div>
                         </div>
@@ -91,7 +91,7 @@
             </div>
 
             {{-- Card: Surplus / Defisit --}}
-            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #b7e9f6 0%, #f5fcff 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
+            <div class="db-card p-6" style="background: linear-gradient(to bottom right, #FA8112 0%, #FFE4D4 100%); box-shadow: 0 6px 18px rgba(2,6,23,0.06);">
                 <div style="display:flex; justify-content:flex-end; align-items:flex-start;">
                             <div style="color:#04576b; font-weight:600;">&nbsp;</div>
                         </div>

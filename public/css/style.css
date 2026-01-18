@@ -3691,3 +3691,13 @@ body{
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
+/* Submenu rail */
+.submenu-rail{
+  border-left: 1.5px solid #fed7aa;
+  margin-left: 1rem;
+  padding-left: 1.25rem;
+}
+.dark .submenu-rail{
+  border-left-color: #d1d5db;
+}
+

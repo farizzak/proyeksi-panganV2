@@ -156,7 +156,7 @@
 
             <!-- DROPDOWN -->
             <div class="overflow-hidden transform translate" :class="(selected === 'Master') ? 'block' : 'hidden'">
-              <ul class="flex flex-col gap-1 mt-2 menu-dropdown pl-9" :class="sidebarToggle ? 'lg:hidden' : 'flex'">
+              <ul class="flex flex-col gap-1 mt-2 menu-dropdown submenu-rail" :class="sidebarToggle ? 'lg:hidden' : 'flex'">
                 <li>
                   <a 
                     href="{{ route('roles.index') }}" 
@@ -246,7 +246,7 @@
 
             <!-- DROPDOWN -->
             <div class="overflow-hidden transform translate" :class="(selected === 'Transaksi Data') ? 'block' : 'hidden'">
-              <ul class="flex flex-col gap-1 mt-2 menu-dropdown pl-9" :class="sidebarToggle ? 'lg:hidden' : 'flex'">
+              <ul class="flex flex-col gap-1 mt-2 menu-dropdown submenu-rail" :class="sidebarToggle ? 'lg:hidden' : 'flex'">
                 <li>
                   <a 
                     href="{{ route('ketersediaan.index') }}" 

@@ -222,3 +222,13 @@ html {
 .event-fc-color.fc-bg-danger { @apply bg-red-50 border-red-50; }
 .event-fc-color.fc-bg-primary { @apply bg-brand-50 border-brand-50; }
 .event-fc-color.fc-bg-warning { @apply bg-orange-50 border-orange-50; }
+
+/* Submenu rail */
+.submenu-rail {
+  border-left: 1.5px solid #fed7aa;
+  margin-left: 1rem;
+  padding-left: 1.25rem;
+}
+.dark .submenu-rail {
+  border-left-color: #d1d5db;
+}
