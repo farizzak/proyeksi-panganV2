@@ -390,8 +390,8 @@
                         class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-orange-400 focus:border-orange-400 bg-gray-50">
                         @foreach ($Mkomoditas as $komoditas)
                             <option value="{{ $komoditas->id }}"
-                                {{ $komoditas->id == request('komoditas_id') ? 'selected' : '' }}>
-                                {{ $komoditas->name }}
+                                {{ @$komoditas->id == request('komoditas_id') ? 'selected' : '' }}>
+                                {{ @$komoditas->name }}
                             </option>
                         @endforeach
                     </select>
@@ -404,7 +404,7 @@
                         class="w-full border border-gray-200 rounded-xl px-3 py-2.5 focus:ring-orange-400 focus:border-orange-400 bg-gray-50">
                         @foreach(range(1, 12) as $month)
                             <option value="{{ $month }}"
-                                {{ $month == request('bulan', date('n')) ? 'selected' : '' }}>
+                                {{ @$month == request('bulan', date('n')) ? 'selected' : '' }}>
                                 {{ DateTime::createFromFormat('!m', $month)->format('F') }}
                             </option>
                         @endforeach
@@ -439,7 +439,7 @@
         <div class="rounded-2xl bg-white shadow-md border border-gray-100 p-6">
             <div class="flex items-center justify-between mb-4">
                 <div>
-                    <h3 class="text-xl font-bold text-gray-900">Trend Ketahanan Pangan - {{ $namakomoditas->name }}</h3>
+                    <h3 class="text-xl font-bold text-gray-900">Trend Ketahanan Pangan - {{ @$namakomoditas->name }}</h3>
                 </div>
                 <span class="text-xs text-gray-500">Periode {{ $tahun }}</span>
             </div>
