@@ -10,25 +10,33 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ScrapingSiharpaController extends Controller
 {
-    public function index(Request $request)
+    private function normalizeDate(?string $date, string $fallback): string
     {
-        $fromDate = $request->input('from') ?? Carbon::yesterday()->format('d-m-Y');
-        $toDate = $request->input('to') ?? Carbon::today()->format('d-m-Y');
+        if (empty($date)) {
+            return $fallback;
+        }
 
         try {
-            $url = "https://siharpa.semarangkota.go.id/dashboard-harga-pasar?bapok=&pasar=&from={$fromDate}&to={$toDate}&sgbtn=Apply&param=1";
-            // $response = Http::get($url);
-            // $response = Http::timeout(60)->retry(3, 3000)->get($url);
-            $response = Http::timeout(60)->get($url);
-
-            if ($response->failed()) {
-                throw new \Exception("Gagal mengambil data dari sumber eksternal.");
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+                return Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
             }
 
-            $html = $response->body();
-            $crawler = new Crawler($html);
+            if (preg_match('/^\d{2}-\d{2}-\d{4}$/', $date)) {
+                return Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
+            }
+        } catch (\Exception $e) {
+            return $fallback;
+        }
 
-            $data = $crawler->filter('#tbody_data_bahan_pokok > tr')->each(function (Crawler $node) {
+        return $fallback;
+    }
+
+    private function parseHargaData(string $html): array
+    {
+        $crawler = new Crawler($html);
+
+        if ($crawler->filter('#tbody_data_bahan_pokok > tr')->count() > 0) {
+            return $crawler->filter('#tbody_data_bahan_pokok > tr')->each(function (Crawler $node) {
                 $harga_tanggal_1 = floatval(str_replace(',', '', $node->filter('td:nth-child(3) .list_group-id_bapok')->text()));
                 $harga_tanggal_2 = floatval(str_replace(',', '', $node->filter('td:nth-child(4) .list_group-id_bapok')->text()));
 
@@ -40,7 +48,6 @@ class ScrapingSiharpaController extends Controller
                     $keterangan = "Naik";
                 }
 
-
                 return [
                     'bahan_pokok' => $node->filter('td:nth-child(1) .list_group-id_bapok')->text(),
                     'satuan' => $node->filter('td:nth-child(2) .list_group-id_bapok')->text(),
@@ -50,6 +57,63 @@ class ScrapingSiharpaController extends Controller
                     'keterangan' => $keterangan
                 ];
             });
+        }
+
+        $appNode = $crawler->filter('#app');
+        if ($appNode->count() === 0) {
+            throw new \Exception("Struktur data sumber berubah dan tidak dapat diparse.");
+        }
+
+        $dataPageRaw = $appNode->attr('data-page');
+        if (!$dataPageRaw) {
+            throw new \Exception("Payload data sumber tidak ditemukan.");
+        }
+
+        $payload = json_decode(html_entity_decode($dataPageRaw, ENT_QUOTES | ENT_HTML5), true);
+        $rows = $payload['props']['comparisonTable']['data'] ?? [];
+        if (!is_array($rows)) {
+            throw new \Exception("Data perbandingan harga tidak tersedia.");
+        }
+
+        return array_map(function ($row) {
+            $harga1 = isset($row['harga_kemarin']) ? (float) $row['harga_kemarin'] : 0.0;
+            $harga2 = isset($row['harga_hari_ini']) ? (float) $row['harga_hari_ini'] : 0.0;
+
+            if ($harga1 == $harga2) {
+                $keterangan = "Tetap";
+            } elseif ($harga1 > $harga2) {
+                $keterangan = "Turun";
+            } else {
+                $keterangan = "Naik";
+            }
+
+            return [
+                'bahan_pokok' => $row['nama'] ?? '-',
+                'satuan' => $row['satuan'] ?? '-',
+                'harga_tanggal_1' => isset($row['harga_kemarin']) ? number_format((float) $row['harga_kemarin'], 2, '.', '') : '0',
+                'harga_tanggal_2' => isset($row['harga_hari_ini']) ? number_format((float) $row['harga_hari_ini'], 2, '.', '') : '0',
+                'persentase' => isset($row['persentase']) ? (string) $row['persentase'] : '0',
+                'keterangan' => $keterangan,
+            ];
+        }, $rows);
+    }
+
+    public function index(Request $request)
+    {
+        $fromDate = $this->normalizeDate($request->input('from'), Carbon::yesterday()->format('Y-m-d'));
+        $toDate = $this->normalizeDate($request->input('to'), Carbon::today()->format('Y-m-d'));
+
+        try {
+            $url = "https://siharpa.semarangkota.go.id/dashboard-harga?from={$fromDate}&to={$toDate}";
+            // $response = Http::get($url);
+            // $response = Http::timeout(60)->retry(3, 3000)->get($url);
+            $response = Http::timeout(60)->get($url);
+
+            if ($response->failed()) {
+                throw new \Exception("Gagal mengambil data dari sumber eksternal.");
+            }
+
+            $data = $this->parseHargaData($response->body());
 
             return view('bahanpokok.index', compact('data', 'fromDate', 'toDate'));
         } catch (\Exception $e) {
@@ -65,42 +129,18 @@ class ScrapingSiharpaController extends Controller
 
     public function scrapeAjax(Request $request)
     {
-        $fromDate = $request->input('from');
-        $toDate = $request->input('to');
+        $fromDate = $this->normalizeDate($request->input('from'), Carbon::yesterday()->format('Y-m-d'));
+        $toDate = $this->normalizeDate($request->input('to'), Carbon::today()->format('Y-m-d'));
 
         try {
-            $url = "https://siharpa.semarangkota.go.id/dashboard-harga-pasar?bapok=&pasar=&from={$fromDate}&to={$toDate}&sgbtn=Apply&param=1";
+            $url = "https://siharpa.semarangkota.go.id/dashboard-harga?from={$fromDate}&to={$toDate}";
             $response = Http::timeout(60)->get($url);
 
             if ($response->failed()) {
                 return response()->json(['error' => 'Gagal mengambil data dari sumber eksternal.'], 500);
             }
 
-            $html = $response->body();
-            $crawler = new Crawler($html);
-
-            $data = $crawler->filter('#tbody_data_bahan_pokok > tr')->each(function (Crawler $node) {
-                $harga_tanggal_1 = floatval(str_replace(',', '', $node->filter('td:nth-child(3) .list_group-id_bapok')->text()));
-                $harga_tanggal_2 = floatval(str_replace(',', '', $node->filter('td:nth-child(4) .list_group-id_bapok')->text()));
-
-                if ($harga_tanggal_1 == $harga_tanggal_2) {
-                    $keterangan = "Tetap";
-                } elseif ($harga_tanggal_1 > $harga_tanggal_2) {
-                    $keterangan = "Turun";
-                } else {
-                    $keterangan = "Naik";
-                }
-
-
-                return [
-                    'bahan_pokok' => $node->filter('td:nth-child(1) .list_group-id_bapok')->text(),
-                    'satuan' => $node->filter('td:nth-child(2) .list_group-id_bapok')->text(),
-                    'harga_tanggal_1' => $node->filter('td:nth-child(3) .list_group-id_bapok')->text(),
-                    'harga_tanggal_2' => $node->filter('td:nth-child(4) .list_group-id_bapok')->text(),
-                    'persentase' => $node->filter('td:nth-child(5) .list_group-id_bapok')->text(),
-                    'keterangan' => $keterangan
-                ];
-            });
+            $data = $this->parseHargaData($response->body());
 
             return response()->json(['data' => $data]);
         } catch (\Exception $e) {
@@ -112,40 +152,18 @@ class ScrapingSiharpaController extends Controller
 
     public function scrapeData(Request $request)
     {
-        $fromDate = $request->input('from') ?? Carbon::yesterday()->format('d-m-Y');
-        $toDate = $request->input('to') ?? Carbon::today()->format('d-m-Y');
+        $fromDate = $this->normalizeDate($request->input('from'), Carbon::yesterday()->format('Y-m-d'));
+        $toDate = $this->normalizeDate($request->input('to'), Carbon::today()->format('Y-m-d'));
 
 
-        $url = "https://siharpa.semarangkota.go.id/dashboard-harga-pasar?bapok=&pasar=&from={$fromDate}&to={$toDate}&sgbtn=Apply&param=1";
+        $url = "https://siharpa.semarangkota.go.id/dashboard-harga?from={$fromDate}&to={$toDate}";
         // $response = Http::get($url);
         $response = Http::timeout(60)->get($url);
        
-        $html = $response->body();
-        $crawler = new Crawler($html);
-        $data = $crawler->filter('#tbody_data_bahan_pokok > tr')->each(function (Crawler $node) {
-            $harga_tanggal_1 = floatval(str_replace(',', '', $node->filter('td:nth-child(3) .list_group-id_bapok')->text()));
-            $harga_tanggal_2 = floatval(str_replace(',', '', $node->filter('td:nth-child(4) .list_group-id_bapok')->text()));
-        
-            // Tentukan nilai keterangan
-            if ($harga_tanggal_1 == $harga_tanggal_2) {
-                $keterangan = "Tetap";
-            } elseif ($harga_tanggal_1 > $harga_tanggal_2) {
-                $keterangan = "Turun";
-            } else {
-                $keterangan = "Naik";
-            }
-            // Konversi persentase menjadi decimal
-            $persentase = floatval(str_replace(',', '', $node->filter('td:nth-child(5) .list_group-id_bapok')->text()));
-
-            return [
-                'bahan_pokok' => $node->filter('td:nth-child(1) .list_group-id_bapok')->text(),
-                'satuan' => $node->filter('td:nth-child(2) .list_group-id_bapok')->text(),
-                'harga_tanggal_1' => $node->filter('td:nth-child(3) .list_group-id_bapok')->text(),
-                'harga_tanggal_2' => $node->filter('td:nth-child(4) .list_group-id_bapok')->text(),
-                'persentase' => $persentase,
-                'keterangan' => $keterangan,
-            ];
-        });
+        $data = array_map(function ($item) {
+            $item['persentase'] = floatval(str_replace(',', '', (string) $item['persentase']));
+            return $item;
+        }, $this->parseHargaData($response->body()));
 
         foreach ($data as $item) {
             // MBahanPokok::create($item);

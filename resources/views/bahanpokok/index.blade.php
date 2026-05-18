@@ -206,17 +206,10 @@
     $('#fromDate').val(toYMD(yesterday));
     $('#toDate').val(toYMD(today));
 
-    // Convert YYYY-MM-DD -> d-m-Y (controller expects d-m-Y)
-    function formatToDMY(isoDate) {
-      if (!isoDate) return '';
-      const [y,m,d] = isoDate.split('-');
-      return `${d}-${m}-${y}`;
-    }
-
     // Sync hidden inputs for Save form
     function syncSaveInputs() {
-      $('#save_from').val(formatToDMY($('#fromDate').val()));
-      $('#save_to').val(formatToDMY($('#toDate').val()));
+      $('#save_from').val($('#fromDate').val());
+      $('#save_to').val($('#toDate').val());
     }
 
     syncSaveInputs(); // initial
@@ -242,9 +235,8 @@
         url: "{{ route('bahanpokok.scrapeAjax') }}",
         type: "POST",
         data: function (d) {
-          // kirim format yang controller ekspektasi (d-m-Y)
-          d.from = formatToDMY($('#fromDate').val());
-          d.to   = formatToDMY($('#toDate').val());
+          d.from = $('#fromDate').val();
+          d.to   = $('#toDate').val();
         },
         dataSrc: function (json) {
           // jika terjadi error dari server, tampilkan pesan di console dan kembalikan array kosong
