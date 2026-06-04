@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\KategoriApiController;
+use App\Http\Controllers\Api\KomoditasApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/kategori/count', [KategoriApiController::class, 'index']);
+Route::get('/komoditas/count', [KomoditasApiController::class, 'index']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
